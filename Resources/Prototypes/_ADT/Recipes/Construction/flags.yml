@@ -1,0 +1,60 @@
+﻿# ADT wallmount flags
+- type: construction
+  id: ADTBlankFlagVerticalRecipe
+  graph: ADTBlankFlagVerticalGraph
+  startNode: start
+  targetNode: flag
+  category: construction-category-furniture
+  objectType: Structure
+  placementMode: SnapgridCenter
+  canBuildInImpassable: true
+  conditions:
+    - !type:WallmountCondition
+
+- type: construction
+  id: ADTNTFlagVerticalRecipe
+  graph: ADTNTFlagVerticalGraph
+  startNode: start
+  targetNode: flag
+  category: construction-category-furniture
+  objectType: Structure
+  placementMode: SnapgridCenter
+  canBuildInImpassable: true
+  conditions:
+    - !type:WallmountCondition
+
+- type: construction
+  id: ADTUSSPFlagRecipe
+  graph: ADTUSSPFlagGraph
+  startNode: start
+  targetNode: flag
+  category: construction-category-furniture
+  objectType: Structure
+  placementMode: SnapgridCenter
+  canBuildInImpassable: true
+  conditions:
+    - !type:WallmountCondition
+
+- type: construction
+  id: ADTUSSPFlagVerticalRecipe
+  graph: ADTUSSPFlagVerticalGraph
+  startNode: start
+  targetNode: flag
+  category: construction-category-furniture
+  objectType: Structure
+  placementMode: SnapgridCenter
+  canBuildInImpassable: true
+  conditions:
+    - !type:WallmountCondition
+
+- type: construction
+  id: ADTUSSPFlagVertical2Recipe
+  graph: ADTUSSPFlagVertical2Graph
+  startNode: start
+  targetNode: flag
+  category: construction-category-furniture
+  objectType: Structure
+  placementMode: SnapgridCenter
+  canBuildInImpassable: true
+  conditions:
+    - !type:WallmountCondition

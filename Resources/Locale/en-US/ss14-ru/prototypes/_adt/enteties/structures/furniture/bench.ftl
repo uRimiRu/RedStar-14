@@ -1,0 +1,9 @@
+ent-ADTBenchChurchLeftSide = church bench
+    .suffix = Left side
+    .desc = Simple, but beautiful.
+ent-ADTBenchChurchMiddle = { ent-ADTBenchChurchLeftSide }
+    .suffix = Middle
+    .desc = { ent-ADTBenchChurchLeftSide.desc }
+ent-ADTBenchChurchRightSide = { ent-ADTBenchChurchLeftSide }
+    .suffix = Right side
+    .desc = { ent-ADTBenchChurchLeftSide.desc }
