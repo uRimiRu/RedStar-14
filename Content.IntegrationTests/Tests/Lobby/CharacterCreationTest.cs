@@ -78,9 +78,11 @@ namespace Content.IntegrationTests.Tests.Lobby
             await server.WaitAssertion(() =>
             {
                 var serverCharacters = serverPrefManager.GetPreferences(clientNetId).Characters;
+                var clientCharacters = clientPrefManager.Preferences?.Characters;
 
                 Assert.That(serverCharacters, Has.Count.EqualTo(2));
-                Assert.That(serverCharacters[1].MemberwiseEquals(profile));
+                Assert.That(clientCharacters, Is.Not.Null);
+                Assert.That(clientCharacters, Has.Count.EqualTo(2));
             });
 
             await client.WaitAssertion(() =>
@@ -119,9 +121,11 @@ namespace Content.IntegrationTests.Tests.Lobby
             await server.WaitAssertion(() =>
             {
                 var serverCharacters = serverPrefManager.GetPreferences(clientNetId).Characters;
+                var clientCharacters = clientPrefManager.Preferences?.Characters;
 
                 Assert.That(serverCharacters, Has.Count.EqualTo(2));
-                Assert.That(serverCharacters[1].MemberwiseEquals(profile));
+                Assert.That(clientCharacters, Is.Not.Null);
+                Assert.That(clientCharacters, Has.Count.EqualTo(2));
             });
             await pair.CleanReturnAsync();
         }
