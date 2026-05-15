@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Goob Station Contributors
+//
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
 using Content.Client.Lobby;
 using Content.Goobstation.Common.CCVar;
 using Content.Shared.CCVar;
@@ -17,6 +21,10 @@ public sealed class PatronSupportUIController : UIController, IOnStateEntered<Lo
 
     public void OnStateEntered(LobbyState state)
     {
+        // RS14-start
+        if (!_cfg.GetCVar(GoobCVars.PatronSupportEnabled))
+            return;
+        // RS14-end
         if (_hasShownThisSession)
             return;
 
