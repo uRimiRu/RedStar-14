@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2026 RedStar Contributors
+#
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
 - type: entity
   save: false
   name: Urist McAnt
@@ -92,7 +96,11 @@
         sprite: Objects/Misc/handcuffs.rsi
         state: body-overlay-2
         visible: false
+      - map: ["underwearb"] # RS14
+      - map: ["underweart"] # RS14
+      - map: ["socks"] # RS14
       - map: [ "gloves" ]
+      - map: ["finger"] # RS14
       - map: [ "shoes" ]
       - map: [ "ears" ]
       - map: [ "outerClothing" ]

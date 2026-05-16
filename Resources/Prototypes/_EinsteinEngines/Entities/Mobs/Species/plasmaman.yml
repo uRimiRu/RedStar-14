@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2026 RedStar Contributors
+#
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
 - type: entity
   parent: BaseMobSpeciesOrganic
   id: BaseMobPlasmaman
@@ -33,7 +37,11 @@
     - map: ["jumpsuit"] # jumpsuit after foot to show envirosuit shoes
     - map: ["enum.HumanoidVisualLayers.LHand"]
     - map: ["enum.HumanoidVisualLayers.RHand"]
+    - map: ["underwearb"] # RS14
+    - map: ["underweart"] # RS14
+    - map: ["socks"] # RS14
     - map: [ "gloves" ]
+    - map: ["finger"] # RS14
     - map: [ "shoes" ]
     - map: [ "ears" ]
     - map: [ "innerBelt" ]
