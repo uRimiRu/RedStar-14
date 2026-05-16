@@ -1,5 +1,5 @@
 ﻿- type: entity
-  name: adt bench base
+  name: church bench
   id: ADTBenchBase
   parent: SeatBase
   description: Simple, but beautiful.
@@ -13,9 +13,9 @@
   - type: Rotatable
 
 - type: entity
-  name: church bench left side
   id: ADTBenchChurchLeftSide
   parent: ADTBenchBase
+  suffix: Left side
   components:
   - type: Sprite
     sprite: _ADT/Structures/Furniture/bench_church.rsi
@@ -25,9 +25,9 @@
     node: adtbenchchurchleft
 
 - type: entity
-  name: church bench middle
   id: ADTBenchChurchMiddle
   parent: ADTBenchBase
+  suffix: Middle
   components:
   - type: Sprite
     sprite: _ADT/Structures/Furniture/bench_church.rsi
@@ -37,9 +37,9 @@
     node: adtbenchchurchmiddle
 
 - type: entity
-  name: church bench side
   id: ADTBenchChurchRightSide
   parent: ADTBenchBase
+  suffix: Right side
   components:
   - type: Sprite
     sprite: _ADT/Structures/Furniture/bench_church.rsi
