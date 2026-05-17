@@ -1,0 +1,321 @@
+# Tiles
+- type: entity
+  name: terracotta tile
+  parent: FloorTileItemBase
+  id: FloorTileItemTerracotta
+  description: Can serve as decent throwing weapon.
+  components:
+  - type: Sprite
+    sprite: _RedStar/Objects/Tiles/tile.rsi
+    state: terracotta
+  - type: Item
+    heldPrefix: terracotta
+  - type: FloorTile
+    outputs:
+    - Plating
+    - FloorTerracotta
+  - type: Stack
+    stackType: FloorTileTerracotta
+
+- type: entity
+  name: terracotta diagonal tile
+  parent: FloorTileItemTerracotta
+  id: FloorTileItemTerracottaDiagonal
+  description: Can serve as decent throwing weapon.
+  components:
+  - type: Sprite
+    sprite: _RedStar/Objects/Tiles/tile.rsi
+    state: terracotta_diagonal
+  - type: FloorTile
+    outputs:
+    - Plating
+    - FloorTerracottaDiagonal
+  - type: Stack
+    stackType: FloorTileTerracottaDiagonal
+
+- type: entity
+  name: terracotta herringbone tile
+  parent: FloorTileItemTerracotta
+  id: FloorTileItemTerracottaHerringbone
+  description: Can serve as decent throwing weapon.
+  components:
+  - type: Sprite
+    sprite: _RedStar/Objects/Tiles/tile.rsi
+    state: terracotta_herringbone
+  - type: FloorTile
+    outputs:
+    - Plating
+    - FloorTerracottaHerringbone
+  - type: Stack
+    stackType: FloorTileTerracottaHerringbone
+
+- type: entity
+  name: terracotta small tile
+  parent: FloorTileItemTerracotta
+  id: FloorTileItemTerracottaSmall
+  description: Can serve as decent throwing weapon.
+  components:
+  - type: Sprite
+    sprite: _RedStar/Objects/Tiles/tile.rsi
+    state: terracotta_small
+  - type: FloorTile
+    outputs:
+    - Plating
+    - FloorTerracottaSmall
+  - type: Stack
+    stackType: FloorTileTerracottaSmall
+
+- type: entity
+  name: stone floor
+  parent: FloorTileItemBase
+  id: FloorTileItemStone
+  description: Can serve as decent throwing weapon.
+  components:
+  - type: Sprite
+    sprite: _RedStar/Objects/Tiles/tile.rsi
+    state: stone
+  - type: Item
+    heldPrefix: stone
+  - type: FloorTile
+    outputs:
+    - Plating
+    - FloorStone
+  - type: Stack
+    stackType: FloorTileStone
+
+- type: entity
+  name: cult floor
+  parent: FloorTileItemBase
+  id: FloorTileItemCult
+  description: Can serve as decent throwing weapon.
+  components:
+  - type: Sprite
+    sprite: _RedStar/Objects/Tiles/tile.rsi
+    state: cult
+  - type: Item
+    heldPrefix: cult
+  - type: FloorTile
+    outputs:
+    - Plating
+    - FloorCult
+  - type: Stack
+    stackType: FloorTileCult
+
+# Shuttle mono tiles
+- type: entity
+  name: white mono shuttle tile
+  parent: FloorTileItemBase
+  id: FloorTileItemShuttleMonoWhite
+  description: Can serve as decent throwing weapon.
+  components:
+  - type: Sprite
+    sprite: _RedStar/Objects/Tiles/tile.rsi
+    state: shuttlewhite
+  - type: Item
+    heldPrefix: shuttlewhite
+  - type: FloorTile
+    outputs:
+    - Plating
+    - FloorShuttleMonoWhite
+  - type: Stack
+    stackType: FloorTileStackShuttleMonoWhite
+
+- type: entity
+  name: blue mono shuttle tile
+  parent: FloorTileItemBase
+  id: FloorTileItemShuttleMonoBlue
+  description: Can serve as decent throwing weapon.
+  components:
+  - type: Sprite
+    sprite: _RedStar/Objects/Tiles/tile.rsi
+    state: shuttleblue
+  - type: Item
+    heldPrefix: shuttleblue
+  - type: FloorTile
+    outputs:
+    - Plating
+    - FloorShuttleMonoBlue
+  - type: Stack
+    stackType: FloorTileStackShuttleMonoBlue
+
+- type: entity
+  name: orange mono shuttle tile
+  parent: FloorTileItemBase
+  id: FloorTileItemShuttleMonoOrange
+  description: Can serve as decent throwing weapon.
+  components:
+  - type: Sprite
+    sprite: _RedStar/Objects/Tiles/tile.rsi
+    state: shuttleorange
+  - type: Item
+    heldPrefix: shuttleorange
+  - type: FloorTile
+    outputs:
+    - Plating
+    - FloorShuttleMonoOrange
+  - type: Stack
+    stackType: FloorTileStackShuttleMonoOrange
+
+- type: entity
+  name: purple mono shuttle tile
+  parent: FloorTileItemBase
+  id: FloorTileItemShuttleMonoPurple
+  description: Can serve as decent throwing weapon.
+  components:
+  - type: Sprite
+    sprite: _RedStar/Objects/Tiles/tile.rsi
+    state: shuttlepurple
+  - type: Item
+    heldPrefix: shuttlepurple
+  - type: FloorTile
+    outputs:
+    - Plating
+    - FloorShuttleMonoPurple
+  - type: Stack
+    stackType: FloorTileStackShuttleMonoPurple
+
+- type: entity
+  name: red mono shuttle tile
+  parent: FloorTileItemBase
+  id: FloorTileItemShuttleMonoRed
+  description: Can serve as decent throwing weapon.
+  components:
+  - type: Sprite
+    sprite: _RedStar/Objects/Tiles/tile.rsi
+    state: shuttlered
+  - type: Item
+    heldPrefix: shuttlered
+  - type: FloorTile
+    outputs:
+    - Plating
+    - FloorShuttleMonoRed
+  - type: Stack
+    stackType: FloorTileStackShuttleMonoRed
+
+- type: entity
+  name: grey mono shuttle tile
+  parent: FloorTileItemBase
+  id: FloorTileItemShuttleMonoGrey
+  description: Can serve as decent throwing weapon.
+  components:
+  - type: Sprite
+    sprite: _RedStar/Objects/Tiles/tile.rsi
+    state: shuttlegrey
+  - type: Item
+    heldPrefix: shuttlegrey
+  - type: FloorTile
+    outputs:
+    - Plating
+    - FloorShuttleMonoGrey
+  - type: Stack
+    stackType: FloorTileStackShuttleMonoGrey
+
+- type: entity
+  name: black mono shuttle tile
+  parent: FloorTileItemBase
+  id: FloorTileItemShuttleMonoBlack
+  description: Can serve as decent throwing weapon.
+  components:
+  - type: Sprite
+    sprite: _RedStar/Objects/Tiles/tile.rsi
+    state: shuttleblack
+  - type: Item
+    heldPrefix: shuttleblack
+  - type: FloorTile
+    outputs:
+    - Plating
+    - FloorShuttleMonoBlack
+  - type: Stack
+    stackType: FloorTileStackShuttleMonoBlack
+
+# Grass tiles
+- type: entity
+  name: fairy grass
+  parent: FloorTileItemBase
+  id: FloorTileItemFairyGrass
+  description: Can serve as decent throwing weapon.
+  components:
+  - type: Sprite
+    sprite: _RedStar/Objects/Tiles/tile.rsi
+    state: fairygrass
+  - type: Item
+    heldPrefix: grass
+  - type: FloorTile
+    outputs:
+    - FloorDirt
+    - FloorFairyGrass
+  - type: Stack
+    stackType: FloorTileFairyGrass
+
+- type: entity
+  name: fairy astro grass
+  parent: FloorTileItemBase
+  id: FloorTileItemFairyAstroGrass
+  description: Artificial grass, excellent for hiding wires, comes with realistic NanoGrass!
+  components:
+  - type: Sprite
+    sprite: _RedStar/Objects/Tiles/tile.rsi
+    state: fairygrass
+  - type: Item
+    heldPrefix: grass
+  - type: FloorTile
+    outputs:
+    - Plating
+    - FloorFairyAstroGrass
+  - type: Stack
+    stackType: FloorTileFairyAstroGrass
+
+# Material tiles
+- type: entity
+  name: diamond tile
+  parent: FloorTileItemBase
+  id: FloorTileItemDiamond
+  description: Sparkling tile made of pure diamond.
+  components:
+  - type: Sprite
+    sprite: _RedStar/Objects/Tiles/tile.rsi
+    state: diamond
+  - type: Item
+    heldPrefix: diamond
+  - type: FloorTile
+    outputs:
+    - Plating
+    - FloorDiamond
+  - type: Stack
+    stackType: FloorTileDiamond
+
+- type: entity
+  name: plasma tile
+  parent: FloorTileItemBase
+  id: FloorTileItemPlasma
+  description: Tile filled with pure plasma energy.
+  components:
+  - type: Sprite
+    sprite: _RedStar/Objects/Tiles/tile.rsi
+    state: plasma
+  - type: Item
+    heldPrefix: plasma
+  - type: FloorTile
+    outputs:
+    - Plating
+    - FloorPlasma
+  - type: Stack
+    stackType: FloorTilePlasma
+
+- type: entity
+  name: uranium tile
+  parent: FloorTileItemBase
+  id: FloorTileItemUranium
+  description: Heavy tile made of radioactive uranium.
+  components:
+  - type: Sprite
+    sprite: _RedStar/Objects/Tiles/tile.rsi
+    state: uranium
+  - type: Item
+    heldPrefix: uranium
+  - type: FloorTile
+    outputs:
+    - Plating
+    - FloorUranium
+  - type: Stack
+    stackType: FloorTileUranium
