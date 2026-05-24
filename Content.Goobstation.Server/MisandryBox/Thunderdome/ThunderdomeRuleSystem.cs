@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Goob Station Contributors
+//
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
 using Content.Goobstation.Common.Mind;
 using Content.Goobstation.Common.Mobs;
 using Content.Goobstation.Server.MisandryBox.Mind;
@@ -41,7 +45,7 @@ using Robust.Shared.Random;
 using Robust.Shared.Containers;
 using Robust.Shared.Spawners;
 using Robust.Shared.Timing;
-using Content.Server._CorvaxGoob.Skills;
+using Content.Server._RedStar.Skills; // RS14
 
 namespace Content.Goobstation.Server.MisandryBox.Thunderdome;
 
@@ -298,7 +302,7 @@ public sealed class ThunderdomeRuleSystem : EntitySystem
 
         rule.Players.Add(GetNetEntity(mob));
 
-        _skills.GrantAllSkills(mob); // CorvaxGoob-Skills
+        _skills.GrantAllSkills(mob); // RS14
 
         _activeEuis.Remove(session);
 
