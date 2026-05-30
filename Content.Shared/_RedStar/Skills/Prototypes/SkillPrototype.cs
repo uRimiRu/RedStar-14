@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 RedStar Contributors
+//
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
 using Robust.Shared.Prototypes;
 using Robust.Shared.Utility;
 
@@ -17,6 +21,9 @@ public sealed partial class SkillPrototype : IPrototype
 
     [DataField]
     public SkillDifficulty Difficulty { get; private set; } = SkillDifficulty.Easy;
+
+    [DataField]
+    public HashSet<ProtoId<SkillPrototype>> LearningPrerequisites { get; private set; } = new();
 }
 
 public enum SkillDifficulty : byte

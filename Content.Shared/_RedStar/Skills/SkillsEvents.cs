@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 RedStar Contributors
+//
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
 using Robust.Shared.Prototypes;
 using Robust.Shared.Serialization;
 
@@ -90,6 +94,24 @@ public sealed class TeachSkillRequestEvent : EntityEventArgs
 
 [Serializable, NetSerializable]
 public sealed class RequestPlayerSkillsEvent : EntityEventArgs;
+
+[Serializable, NetSerializable]
+public sealed class RequestSkillsStateEvent : EntityEventArgs;
+
+[Serializable, NetSerializable]
+public sealed class UpdateSkillsStateEvent : EntityEventArgs
+{
+    public bool Enabled;
+
+    public UpdateSkillsStateEvent()
+    {
+    }
+
+    public UpdateSkillsStateEvent(bool enabled)
+    {
+        Enabled = enabled;
+    }
+}
 
 [Serializable, NetSerializable]
 public sealed class UpdatePlayerSkillsEvent : EntityEventArgs
