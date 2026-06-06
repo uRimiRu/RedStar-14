@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 RedStar Contributors
+//
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
 using Content.Server.Administration.Managers;
 using Content.Server.Atmos.Components;
 using Content.Server.Body.Components;
@@ -43,11 +47,11 @@ using Robust.Shared.Player;
 using Robust.Shared.Prototypes;
 using Content.Shared.Roles;
 using Content.Server.Animals.Components;
-using Content.Shared.Mech.Components;
 using Content.Shared.Rejuvenate; // Shitmed Change
 using Content.Shared.NPC.Prototypes;
 using Content.Shared.Roles;
 using Content.Shared.Mech.EntitySystems;
+using Content.Shared.Vehicle.Components; // RS14
 using Content.Goobstation.Common.Traits; // Goobstation
 
 namespace Content.Server.Zombies;
@@ -322,7 +326,7 @@ public sealed partial class ZombieSystem
         RaiseLocalEvent(target, ref ev, true);
         //zombies get slowdown once they convert
         _movementSpeedModifier.RefreshMovementSpeedModifiers(target);
-        if (TryComp<MechPilotComponent>(target, out var mechPilotComponent)) // Goobstation - kick out zombies from mechs on conversion
-            _mech.TryEject(mechPilotComponent.Mech, null, target);
+        if (TryComp<VehicleOperatorComponent>(target, out var vehicleOperator) && vehicleOperator.Vehicle is { } vehicle) // RS14
+            _mech.TryEject(vehicle, null, target);
     }
 }
