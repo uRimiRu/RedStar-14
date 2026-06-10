@@ -20,3 +20,5 @@ ent-ClothingBackpackDuffelTennisGame = теннисный набор
     .desc = Содержит всё необходимое для начала теннисного матча!
 ent-ClothingBackpackDuffelHosFilledUtility = комплект утилитарных предметов начальника службы безопасности
     .desc = Комплект с различными утилитарными предметами начальника службы безопасности.
+ent-ClothingBackpackDuffelTennisGame = набор для тенниса
+    .desc = Содержит всё необходимое для начала теннисного матча!
