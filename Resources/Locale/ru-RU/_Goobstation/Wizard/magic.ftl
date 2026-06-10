@@ -52,4 +52,3 @@ spell-rathen-gut-popup = У вас нет аппендикса, но чему-т
 ghosts-summoned-message = Призраки были вызваны!
 dimension-shift-message = Измерения сдвинулись!
 global-tile-movement-message = Начинает играть зловещий ритм!
-spell-rathen-gut-popup = У вас нет аппендикса, но чем-то всё же пришлось пожертвовать!
