@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2026 RedStar Contributors
+#
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
 - type: latheRecipe
   id: AdvancedCyberneticEyes
   result: AdvancedCyberneticEyes
@@ -11,3 +15,16 @@
     Gold: 1000
     Silver: 600
     Plasma: 400
+
+- type: latheRecipe
+  id: BasicCyberneticStomach
+  result: BasicCyberneticStomach
+  categories:
+  - Robotics
+  completetime: 5
+  materials:
+    Steel: 1000
+    Glass: 5000
+    Plastic: 500
+    Gold: 500
+    Silver: 300
