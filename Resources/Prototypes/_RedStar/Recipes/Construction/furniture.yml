@@ -10,3 +10,37 @@
   canBuildInImpassable: false
   conditions:
     - !type:TileNotBlocked
+
+- type: construction
+  name: раковина
+  id: SinkEmpty
+  graph: SinkEmpty
+  startNode: start
+  targetNode: Sink
+  category: construction-category-furniture
+  description: Источник воды и ее иссушения
+  icon:
+    sprite: Structures/Furniture/sink.rsi
+    state: sink
+  objectType: Structure
+  placementMode: SnapgridCenter
+  canBuildInImpassable: false
+  conditions:
+    - !type:TileNotBlocked
+
+- type: construction
+  name: раковина (широкая)
+  id: SinkWideEmpty
+  graph: SinkWideEmpty
+  startNode: start
+  targetNode: SinkWide
+  category: construction-category-furniture
+  description: Источник воды и ее иссушения
+  icon:
+    sprite: Structures/Furniture/sink.rsi
+    state: sink_wide
+  objectType: Structure
+  placementMode: SnapgridCenter
+  canBuildInImpassable: false
+  conditions:
+    - !type:TileNotBlocked
