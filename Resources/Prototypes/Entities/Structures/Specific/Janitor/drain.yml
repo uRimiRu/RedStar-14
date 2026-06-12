@@ -66,6 +66,3 @@
             - !type:PlaySoundBehavior
               sound:
                 collection: MetalBreak
-    - type: Construction #RedStar
-      graph: FloorDrainEmpty
-      node: FloorDrain
