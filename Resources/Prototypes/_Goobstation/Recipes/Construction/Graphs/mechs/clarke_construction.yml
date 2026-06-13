@@ -7,11 +7,15 @@
 
 - type: constructionGraph
   id: Clarke
+  start: start
   graph:
   - node: start
     edges:
     - to: clarke
       steps:
+      - assemblyId: Clarke
+        guideString: mech-construction-guide-string
+
       - tool: Anchoring
         doAfter: 1
         completed:
