@@ -79,3 +79,11 @@
     - MechEquipmentGrabber
     - MechEquipmentHorn
     - MechEquipmentGrabberSmall
+
+# RS14-start
+- type: latheRecipePack
+  id: MechModule
+  recipes:
+    - MechModuleFan
+    - MechModuleAirTank
+# RS14-end
