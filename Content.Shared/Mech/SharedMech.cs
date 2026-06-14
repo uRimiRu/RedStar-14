@@ -79,6 +79,28 @@ public sealed partial class MechToggleEquipmentEvent : InstantActionEvent
 {
 }
 
+// RS14-start
+[ByRefEvent]
+public readonly record struct MechOpenEquipmentRadialEvent
+{
+}
+
+[Serializable, NetSerializable]
+public sealed class RequestMechEquipmentSelectEvent : EntityEventArgs
+{
+    public NetEntity? Equipment;
+
+    public RequestMechEquipmentSelectEvent()
+    {
+    }
+
+    public RequestMechEquipmentSelectEvent(NetEntity? equipment)
+    {
+        Equipment = equipment;
+    }
+}
+// RS14-end
+
 public sealed partial class MechOpenUiEvent : InstantActionEvent
 {
 }
