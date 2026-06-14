@@ -7,6 +7,8 @@
 // SPDX-License-Identifier: MIT
 
 using Robust.Shared.Serialization;
+using Content.Shared.Materials;
+using Robust.Shared.Prototypes;
 
 namespace Content.Shared.Mech;
 
@@ -132,3 +134,25 @@ public sealed class MechSoundboardUiState : BoundUserInterfaceState
 {
     public List<string> Sounds = new();
 }
+
+// RS14-start
+[Serializable, NetSerializable]
+public sealed class MechGeneratorUiState : BoundUserInterfaceState
+{
+    public float ChargeCurrent;
+    public float ChargeMax;
+    public bool HasFuel;
+    public ProtoId<MaterialPrototype>? FuelName;
+    public float FuelAmount;
+    public float FuelCapacity;
+}
+
+[Serializable, NetSerializable]
+public sealed class MechGeneratorEjectFuelMessage : MechEquipmentUiMessage
+{
+    public MechGeneratorEjectFuelMessage(NetEntity equipment)
+    {
+        Equipment = equipment;
+    }
+}
+// RS14-end
