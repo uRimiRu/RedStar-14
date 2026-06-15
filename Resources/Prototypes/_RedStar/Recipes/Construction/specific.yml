@@ -1,0 +1,19 @@
+# SPDX-FileCopyrightText: 2026 RedStar Contributors
+#
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+- type: construction
+  id: FloorDrain
+  graph: FloorDrain
+  startNode: start
+  targetNode: FloorDrain
+  category: construction-category-furniture
+  description: Осушает ближайшие лужи
+  icon:
+    sprite: Objects/Specific/Janitorial/drain.rsi
+    state: icon
+  objectType: Structure
+  placementMode: SnapgridCenter
+  canBuildInImpassable: false
+  conditions:
+    - !type:TileNotBlocked
