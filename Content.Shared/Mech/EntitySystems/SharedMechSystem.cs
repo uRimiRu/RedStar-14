@@ -35,6 +35,7 @@ using Content.Shared._vg.TileMovement; // Goobstation
 using Content.Shared.ActionBlocker;
 using Content.Shared.Actions;
 using Content.Shared.Alert;
+using Content.Shared.Body.Events;
 using Content.Shared.Destructible;
 using Content.Shared.DoAfter;
 using Content.Shared.DragDrop;
@@ -110,6 +111,7 @@ public abstract partial class SharedMechSystem : EntitySystem
         SubscribeLocalEvent<MechComponent, GotEmaggedEvent>(OnEmagged);
         SubscribeLocalEvent<MechComponent, VehicleOperatorSetEvent>(OnOperatorSet); // RS14
         SubscribeLocalEvent<MechComponent, EntRemovedFromContainerMessage>(OnContainerChanged); // RS14
+        SubscribeLocalEvent<MechComponent, BeingGibbedEvent>(OnBeingGibbed); // RS14
 
         // RS14-start
         SubscribeLocalEvent<VehicleOperatorComponent, GetMeleeWeaponEvent>(OnGetMeleeWeapon);
@@ -129,6 +131,7 @@ public abstract partial class SharedMechSystem : EntitySystem
         SubscribeLocalEvent<MechEquipmentComponent, AttemptMeleeEvent>(OnMechEquipmentMeleeAttempt);
         SubscribeLocalEvent<MechEquipmentComponent, GettingUsedAttemptEvent>(OnMechEquipmentGettingUsedAttempt);
         SubscribeLocalEvent<MechEquipmentComponent, ActivatableUIOpenAttemptEvent>(OnMechEquipmentUiOpenAttempt);
+        SubscribeLocalEvent<MechComponent, UseHeldBypassAttemptEvent>(OnUseHeldBypass);
         // RS14-end
         Subs.CVar(_config, GoobCVars.MechGunOutsideMech, value => _canUseMechGunOutside = value, true); // Goobstation
         SubscribeAllEvent<RequestMechEquipmentSelectEvent>(OnEquipmentSelectRequest); // RS14
@@ -857,6 +860,17 @@ public abstract partial class SharedMechSystem : EntitySystem
             args.Cancel();
     }
 
+    private void OnUseHeldBypass(Entity<MechComponent> ent, ref UseHeldBypassAttemptEvent args)
+    {
+        // Allow using mech equipment on a mech for installation, while still
+        // blocking firing/activating that equipment directly from hands.
+        if (_hands.TryGetActiveItem(args.User, out var held) &&
+            HasComp<MechEquipmentComponent>(held.Value))
+        {
+            args.Bypass = true;
+        }
+    }
+
     // Goobstation: Prevent guns being used out of mechs if CCVAR is set.
     private void OnShotAttempted(EntityUid uid, MechEquipmentComponent component, ref ShotAttemptedEvent args)
     {
@@ -916,6 +930,19 @@ public abstract partial class SharedMechSystem : EntitySystem
     }
 
     // RS14-start
+    private void OnBeingGibbed(Entity<MechComponent> ent, ref BeingGibbedEvent args)
+    {
+        var pilot = ent.Comp.PilotSlot.ContainedEntity;
+
+        if (pilot != null)
+            TryEject(ent.Owner, ent.Comp);
+
+        if (pilot != null)
+            args.GibbedParts.Add(pilot.Value);
+
+        PredictedQueueDel(ent.Owner);
+    }
+
     private void OnContainerChanged(Entity<MechComponent> ent, ref EntRemovedFromContainerMessage args)
     {
         if (args.Container == ent.Comp.PilotSlot)
