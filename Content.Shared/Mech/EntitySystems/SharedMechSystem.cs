@@ -39,6 +39,7 @@ using Content.Shared.Destructible;
 using Content.Shared.DoAfter;
 using Content.Shared.DragDrop;
 using Content.Goobstation.Maths.FixedPoint;
+using Content.Shared.Containers.ItemSlots;
 using Content.Shared.Interaction;
 using Content.Shared.Interaction.Components;
 using Content.Shared.Interaction.Events;
@@ -47,6 +48,8 @@ using Content.Shared.Mech.Equipment.Components;
 using Content.Shared.Mech.Module.Components;
 using Content.Shared.Popups;
 using Content.Shared.Storage.Components;
+using Content.Shared.Tools.Components;
+using Content.Shared.UserInterface;
 using Content.Shared.Vehicle;
 using Content.Shared.Vehicle.Components;
 using Content.Shared.Weapons.Melee;
@@ -62,6 +65,7 @@ using Content.Shared.Weapons.Ranged.Events;
 using Content.Shared.Hands.Components;
 using Content.Shared.Hands.EntitySystems;
 using Content.Shared.Inventory.VirtualItem;
+using Content.Shared.Weapons.Melee.Events;
 using Robust.Shared.Configuration;
 
 namespace Content.Shared.Mech.EntitySystems;
@@ -78,6 +82,7 @@ public abstract partial class SharedMechSystem : EntitySystem
     [Dependency] private readonly AlertsSystem _alerts = default!; // RS14
     [Dependency] private readonly SharedAppearanceSystem _appearance = default!;
     [Dependency] private readonly SharedContainerSystem _container = default!;
+    [Dependency] private readonly ItemSlotsSystem _itemSlots = default!; // RS14
     [Dependency] private readonly SharedInteractionSystem _interaction = default!;
     [Dependency] private readonly SharedPopupSystem _popup = default!;
     [Dependency] private readonly SharedDoAfterSystem _doAfter = default!;
@@ -104,13 +109,27 @@ public abstract partial class SharedMechSystem : EntitySystem
         SubscribeLocalEvent<MechComponent, CanDropTargetEvent>(OnCanDragDrop);
         SubscribeLocalEvent<MechComponent, GotEmaggedEvent>(OnEmagged);
         SubscribeLocalEvent<MechComponent, VehicleOperatorSetEvent>(OnOperatorSet); // RS14
+        SubscribeLocalEvent<MechComponent, EntRemovedFromContainerMessage>(OnContainerChanged); // RS14
 
         // RS14-start
         SubscribeLocalEvent<VehicleOperatorComponent, GetMeleeWeaponEvent>(OnGetMeleeWeapon);
         SubscribeLocalEvent<VehicleOperatorComponent, CanAttackFromContainerEvent>(OnCanAttackFromContainer);
         SubscribeLocalEvent<VehicleOperatorComponent, AttackAttemptEvent>(OnAttackAttempt);
+        SubscribeLocalEvent<MechPilotComponent, CanAttackFromContainerEvent>(OnPilotCanAttackFromContainer);
+        SubscribeLocalEvent<MechPilotComponent, GetMeleeAttackEntityEvent>(OnPilotGetMeleeAttackEntity);
+        SubscribeLocalEvent<MechPilotComponent, GetMeleeWeaponEvent>(OnPilotGetMeleeWeapon);
+        SubscribeLocalEvent<MechPilotComponent, GetActiveWeaponEvent>(OnPilotGetActiveWeapon);
+        SubscribeLocalEvent<MechPilotComponent, GetUsedEntityEvent>(OnPilotGetUsedEntity);
+        SubscribeLocalEvent<MechPilotComponent, AccessibleOverrideEvent>(OnPilotAccessible);
+        SubscribeLocalEvent<MechPilotComponent, GetShootingEntityEvent>(OnPilotGetShootingEntity);
+        SubscribeLocalEvent<MechPilotComponent, ToolUserAttemptUseEvent>(OnPilotToolUseAttempt);
         // RS14-end
         SubscribeLocalEvent<MechEquipmentComponent, ShotAttemptedEvent>(OnShotAttempted); // Goobstation
+        // RS14-start
+        SubscribeLocalEvent<MechEquipmentComponent, AttemptMeleeEvent>(OnMechEquipmentMeleeAttempt);
+        SubscribeLocalEvent<MechEquipmentComponent, GettingUsedAttemptEvent>(OnMechEquipmentGettingUsedAttempt);
+        SubscribeLocalEvent<MechEquipmentComponent, ActivatableUIOpenAttemptEvent>(OnMechEquipmentUiOpenAttempt);
+        // RS14-end
         Subs.CVar(_config, GoobCVars.MechGunOutsideMech, value => _canUseMechGunOutside = value, true); // Goobstation
         SubscribeAllEvent<RequestMechEquipmentSelectEvent>(OnEquipmentSelectRequest); // RS14
 
@@ -180,6 +199,12 @@ public abstract partial class SharedMechSystem : EntitySystem
         if (!Resolve(mech, ref component))
             return;
 
+        // RS14-start
+        var mechPilot = EnsureComp<MechPilotComponent>(pilot);
+        mechPilot.Mech = mech;
+        Dirty(pilot, mechPilot);
+        // RS14-end
+
         if (HasComp<TileMovementComponent>(pilot)) // Goob change - Prevent mech jank.
             EnsureComp<TileMovementComponent>(mech);
 
@@ -222,6 +247,9 @@ public abstract partial class SharedMechSystem : EntitySystem
         if (HasComp<TileMovementComponent>(mech)) // Goob change - Prevent mech jank.
             RemComp<TileMovementComponent>(mech);
 
+        // RS14-start
+        RemComp<MechPilotComponent>(pilot);
+        // RS14-end
         RemComp<InteractionRelayComponent>(pilot);
         // RS14-start
         if (TryComp<AlertsDisplayRelayComponent>(pilot, out var alertRelay) &&
@@ -322,20 +350,23 @@ public abstract partial class SharedMechSystem : EntitySystem
         if (user == null)
             return;
 
-        if (!TryComp<VehicleOperatorComponent>(user.Value, out var vehicleOperator) ||
-            vehicleOperator.Vehicle == null)
-        {
-            return;
-        }
+        EntityUid? mech = null;
+        if (TryComp<MechPilotComponent>(user.Value, out var pilot))
+            mech = pilot.Mech;
+        else if (TryComp<VehicleOperatorComponent>(user.Value, out var vehicleOperator) &&
+                 vehicleOperator.Vehicle != null)
+            mech = vehicleOperator.Vehicle.Value;
 
-        var mech = vehicleOperator.Vehicle.Value;
-        if (!TryComp<MechComponent>(mech, out var mechComp))
+        if (mech == null)
+            return;
+
+        if (!TryComp<MechComponent>(mech.Value, out var mechComp))
             return;
 
         if (args.Equipment == null)
         {
             mechComp.CurrentSelectedEquipment = null;
-            _popup.PopupClient(Loc.GetString("mech-equipment-select-none-popup"), mech, user.Value);
+            _popup.PopupClient(Loc.GetString("mech-equipment-select-none-popup"), mech.Value, user.Value);
         }
         else
         {
@@ -344,11 +375,11 @@ public abstract partial class SharedMechSystem : EntitySystem
                 return;
 
             mechComp.CurrentSelectedEquipment = equipment;
-            _popup.PopupClient(Loc.GetString("mech-equipment-select-popup", ("item", equipment)), mech, user.Value);
+            _popup.PopupClient(Loc.GetString("mech-equipment-select-popup", ("item", equipment)), mech.Value, user.Value);
         }
 
-        RefreshPilotHandVirtualItems((mech, mechComp));
-        Dirty(mech, mechComp);
+        RefreshPilotHandVirtualItems((mech.Value, mechComp));
+        Dirty(mech.Value, mechComp);
     }
     // RS14-end
 
@@ -375,6 +406,7 @@ public abstract partial class SharedMechSystem : EntitySystem
                 return;
 
             equipmentComponent.EquipmentOwner = uid;
+            Dirty(toInsert, equipmentComponent);
             _container.Insert(toInsert, component.EquipmentContainer);
             var ev = new MechEquipmentInsertedEvent(uid);
             RaiseLocalEvent(toInsert, ref ev);
@@ -446,6 +478,7 @@ public abstract partial class SharedMechSystem : EntitySystem
                 CycleEquipment(uid, component);
 
             equipmentComponent!.EquipmentOwner = null;
+            Dirty(toRemove, equipmentComponent);
             _container.Remove(toRemove, component.EquipmentContainer);
         }
         else if (isModule)
@@ -710,13 +743,127 @@ public abstract partial class SharedMechSystem : EntitySystem
             args.Cancel();
     }
 
+    private void OnPilotCanAttackFromContainer(Entity<MechPilotComponent> ent, ref CanAttackFromContainerEvent args)
+    {
+        args.CanAttack = true;
+    }
+
+    private void OnPilotGetMeleeAttackEntity(Entity<MechPilotComponent> ent, ref GetMeleeAttackEntityEvent args)
+    {
+        if (args.Handled)
+            return;
+
+        args.AttackEntity = ent.Comp.Mech;
+        args.Handled = true;
+    }
+
+    private void OnPilotGetMeleeWeapon(Entity<MechPilotComponent> ent, ref GetMeleeWeaponEvent args)
+    {
+        if (args.Handled)
+            return;
+
+        if (!HasComp<HandsComponent>(ent.Owner))
+        {
+            args.Handled = true;
+            return;
+        }
+
+        if (!TryComp<MechComponent>(ent.Comp.Mech, out var mech))
+            return;
+
+        args.Weapon = mech.CurrentSelectedEquipment ?? ent.Comp.Mech;
+        args.Handled = true;
+    }
+
+    private void OnPilotGetActiveWeapon(Entity<MechPilotComponent> ent, ref GetActiveWeaponEvent args)
+    {
+        if (args.Handled)
+            return;
+
+        if (!TryComp<MechComponent>(ent.Comp.Mech, out var mech))
+            return;
+
+        args.Weapon = mech.CurrentSelectedEquipment ?? ent.Comp.Mech;
+        args.Handled = true;
+    }
+
+    private void OnPilotGetUsedEntity(Entity<MechPilotComponent> ent, ref GetUsedEntityEvent args)
+    {
+        if (!TryComp<MechComponent>(ent.Comp.Mech, out var mech))
+            return;
+
+        if (!Vehicle.HasOperator(ent.Comp.Mech))
+            return;
+
+        if (mech.CurrentSelectedEquipment != null)
+            args.Used = mech.CurrentSelectedEquipment;
+    }
+
+    private void OnPilotAccessible(Entity<MechPilotComponent> ent, ref AccessibleOverrideEvent args)
+    {
+        args.Handled = true;
+        args.Accessible = _interaction.IsAccessible(ent.Comp.Mech, args.Target);
+    }
+
+    private void OnPilotGetShootingEntity(Entity<MechPilotComponent> ent, ref GetShootingEntityEvent args)
+    {
+        if (args.Handled)
+            return;
+
+        args.ShootingEntity = ent.Comp.Mech;
+        args.Handled = true;
+    }
+
+    private static void OnPilotToolUseAttempt(Entity<MechPilotComponent> ent, ref ToolUserAttemptUseEvent args)
+    {
+        if (args.Target == ent.Comp.Mech)
+            args.Cancelled = true;
+    }
+
+    // RS14-start
+    private bool IsMechEquipmentUsableFromHands(Entity<MechEquipmentComponent> ent)
+    {
+        if (!ent.Comp.BlockUseOutsideMech)
+            return true;
+
+        if (ent.Comp.EquipmentOwner.HasValue)
+            return true;
+
+        if (_container.TryGetContainingContainer(ent.Owner, out var container) &&
+            HasComp<MechComponent>(container.Owner))
+            return true;
+
+        return false;
+    }
+
+    private void OnMechEquipmentMeleeAttempt(Entity<MechEquipmentComponent> ent, ref AttemptMeleeEvent args)
+    {
+        if (!IsMechEquipmentUsableFromHands(ent))
+            args.Cancelled = true;
+    }
+
+    private void OnMechEquipmentGettingUsedAttempt(Entity<MechEquipmentComponent> ent, ref GettingUsedAttemptEvent args)
+    {
+        if (_net.IsClient)
+            return;
+
+        if (!IsMechEquipmentUsableFromHands(ent))
+            args.Cancel();
+    }
+
+    private void OnMechEquipmentUiOpenAttempt(Entity<MechEquipmentComponent> ent, ref ActivatableUIOpenAttemptEvent args)
+    {
+        if (!IsMechEquipmentUsableFromHands(ent))
+            args.Cancel();
+    }
+
     // Goobstation: Prevent guns being used out of mechs if CCVAR is set.
     private void OnShotAttempted(EntityUid uid, MechEquipmentComponent component, ref ShotAttemptedEvent args)
     {
         if (!component.EquipmentOwner.HasValue
             || !HasComp<MechComponent>(component.EquipmentOwner.Value))
         {
-            if (!_canUseMechGunOutside)
+            if (component.BlockUseOutsideMech && !_canUseMechGunOutside)
                 args.Cancel();
             return;
         }
@@ -724,6 +871,7 @@ public abstract partial class SharedMechSystem : EntitySystem
         var ev = new HandleMechEquipmentBatteryEvent();
         RaiseLocalEvent(uid, ev);
     }
+    // RS14-end
 
     private void UpdateAppearance(EntityUid uid, MechComponent? component = null,
         AppearanceComponent? appearance = null)
@@ -768,11 +916,18 @@ public abstract partial class SharedMechSystem : EntitySystem
     }
 
     // RS14-start
+    private void OnContainerChanged(Entity<MechComponent> ent, ref EntRemovedFromContainerMessage args)
+    {
+        if (args.Container == ent.Comp.PilotSlot)
+            SetBatterySlotLocked(ent.Owner, ent.Comp, false);
+    }
+
     private void OnOperatorSet(Entity<MechComponent> ent, ref VehicleOperatorSetEvent args)
     {
         if (args.OldOperator is { } oldOperator)
         {
             RemoveUser(ent, oldOperator);
+            SetBatterySlotLocked(ent.Owner, ent.Comp, false);
 
             var ev = new MechEjectedEvent(ent);
             RaiseLocalEvent(oldOperator, ev);
@@ -781,6 +936,7 @@ public abstract partial class SharedMechSystem : EntitySystem
         if (args.NewOperator is { } newOperator)
         {
             SetupUser(ent, newOperator, ent);
+            SetBatterySlotLocked(ent.Owner, ent.Comp, true);
 
             var ev = new MechInsertedEvent(ent);
             RaiseLocalEvent(newOperator, ev);
@@ -791,6 +947,12 @@ public abstract partial class SharedMechSystem : EntitySystem
 
         var drainEv = new MechMovementDrainToggleEvent(args.NewOperator != null);
         RaiseLocalEvent(ent, ref drainEv);
+    }
+
+    protected void SetBatterySlotLocked(EntityUid uid, MechComponent component, bool locked)
+    {
+        if (TryComp<ItemSlotsComponent>(uid, out var slots))
+            _itemSlots.SetLock(uid, component.BatterySlotId, locked, slots);
     }
     // RS14-end
 }

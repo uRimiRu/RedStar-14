@@ -35,6 +35,9 @@ public sealed class MechAtmosphereSystem : EntitySystem
         SubscribeLocalEvent<MechComponent, MechFanToggleMessage>(OnFanToggleMessage);
         SubscribeLocalEvent<MechComponent, MechFilterToggleMessage>(OnFilterToggleMessage);
 
+        SubscribeLocalEvent<MechPilotComponent, InhaleLocationEvent>(OnPilotInhale); // RS14
+        SubscribeLocalEvent<MechPilotComponent, ExhaleLocationEvent>(OnPilotExhale); // RS14
+        SubscribeLocalEvent<MechPilotComponent, AtmosExposedGetAirEvent>(OnPilotExpose); // RS14
         SubscribeLocalEvent<VehicleOperatorComponent, InhaleLocationEvent>(OnInhale);
         SubscribeLocalEvent<VehicleOperatorComponent, ExhaleLocationEvent>(OnExhale);
         SubscribeLocalEvent<VehicleOperatorComponent, AtmosExposedGetAirEvent>(OnExpose);
@@ -151,24 +154,12 @@ public sealed class MechAtmosphereSystem : EntitySystem
         _mech.UpdateMechUi(ent.Owner);
     }
 
-    private void OnInhale(EntityUid uid, VehicleOperatorComponent component, InhaleLocationEvent args)
+    private void OnInhale(EntityUid uid, VehicleOperatorComponent component, ref InhaleLocationEvent args)
     {
         if (!TryGetOperatedMech(component, out var ent))
             return;
 
-        if (ent.Comp.Airtight && TryComp<MechCabinAirComponent>(ent.Owner, out var cabin))
-        {
-            var breath = new GasMixture(args.Respirator.BreathVolume)
-            {
-                Temperature = cabin.Air.Temperature
-            };
-
-            _atmosphere.PumpGasTo(cabin.Air, breath, cabin.RegulatorPressure);
-            args.Gas = breath;
-            return;
-        }
-
-        args.Gas = _atmosphere.GetContainingMixture(ent.Owner, excite: true);
+        SetInhaleGas(ent, ref args);
     }
 
     private void OnExhale(EntityUid uid, VehicleOperatorComponent component, ExhaleLocationEvent args)
@@ -186,6 +177,51 @@ public sealed class MechAtmosphereSystem : EntitySystem
 
         args.Gas = GetBreathMixture(ent, args.Excite);
         args.Handled = true;
+    }
+
+    private void OnPilotInhale(Entity<MechPilotComponent> ent, ref InhaleLocationEvent args)
+    {
+        if (!TryComp<MechComponent>(ent.Comp.Mech, out var mechComp))
+            return;
+
+        SetInhaleGas((ent.Comp.Mech, mechComp), ref args);
+    }
+
+    private void OnPilotExhale(Entity<MechPilotComponent> ent, ref ExhaleLocationEvent args)
+    {
+        if (!TryComp<MechComponent>(ent.Comp.Mech, out var mechComp))
+            return;
+
+        args.Gas = GetBreathMixture((ent.Comp.Mech, mechComp));
+    }
+
+    private void OnPilotExpose(Entity<MechPilotComponent> ent, ref AtmosExposedGetAirEvent args)
+    {
+        if (args.Handled)
+            return;
+
+        if (!TryComp<MechComponent>(ent.Comp.Mech, out var mechComp))
+            return;
+
+        args.Gas = GetBreathMixture((ent.Comp.Mech, mechComp), args.Excite);
+        args.Handled = true;
+    }
+
+    private void SetInhaleGas(Entity<MechComponent> ent, ref InhaleLocationEvent args)
+    {
+        if (ent.Comp.Airtight && TryComp<MechCabinAirComponent>(ent.Owner, out var cabin))
+        {
+            var breath = new GasMixture(args.Respirator.BreathVolume)
+            {
+                Temperature = cabin.Air.Temperature
+            };
+
+            _atmosphere.PumpGasTo(cabin.Air, breath, cabin.RegulatorPressure);
+            args.Gas = breath;
+            return;
+        }
+
+        args.Gas = _atmosphere.GetContainingMixture(ent.Owner, excite: true);
     }
 
     private GasMixture? GetBreathMixture(Entity<MechComponent> ent, bool excite = true)

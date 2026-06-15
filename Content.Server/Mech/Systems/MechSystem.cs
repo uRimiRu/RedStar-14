@@ -33,7 +33,6 @@
 using System.Linq;
 using Content.Server.Construction; // RS14
 using Content.Server.Construction.Components; // RS14
-using Content.Server.Mech.Events; // RS14
 using Content.Shared.Construction.Components; // RS14
 using Content.Shared.Construction.Prototypes; // RS14
 using Content.Server.Power.Components;
@@ -48,6 +47,7 @@ using Content.Shared.Interaction;
 using Content.Shared.Mech;
 using Content.Shared.Mech.Components;
 using Content.Shared.Mech.EntitySystems;
+using Content.Shared.Mech.Events; // RS14
 using Content.Shared.Mech.Module.Components;
 using Content.Shared.Popups;
 using Content.Shared.Repairable; // RS14
@@ -185,6 +185,12 @@ public sealed partial class MechSystem : SharedMechSystem
 
     private void OnInsertBattery(EntityUid uid, MechComponent component, EntInsertedIntoContainerMessage args)
     {
+        if (args.Container == component.PilotSlot)
+        {
+            SetBatterySlotLocked(uid, component, true);
+            return;
+        }
+
         if (args.Container != component.BatterySlot || !TryComp<BatteryComponent>(args.Entity, out var battery))
             return;
 
@@ -638,10 +644,9 @@ public sealed partial class MechSystem : SharedMechSystem
         if (!TryComp<BatteryComponent>(battery, out var batteryComp))
             return false;
 
-        _battery.SetCharge(battery!.Value, batteryComp.CurrentCharge + delta.Float(), batteryComp);
-        if (batteryComp.CurrentCharge != component.Energy) //if there's a discrepency, we have to resync them
+        _battery.SetCharge(battery.Value, batteryComp.CurrentCharge + delta.Float(), batteryComp);
+        if (Math.Abs(batteryComp.CurrentCharge - component.Energy.Float()) > 0.01f)
         {
-            Log.Debug($"Battery charge was not equal to mech charge. Battery {batteryComp.CurrentCharge}. Mech {component.Energy}");
             component.Energy = batteryComp.CurrentCharge;
             Dirty(uid, component);
         }

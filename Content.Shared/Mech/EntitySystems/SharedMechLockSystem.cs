@@ -346,7 +346,7 @@ public abstract partial class SharedMechLockSystem : EntitySystem
 
                 return TryComp<DnaComponent>(user, out var dnaComp) && dnaComp.DNA == ownerId;
             case MechLockType.Card:
-                return HasMatchingCardAccess(user, component);
+                return HasAllCardAccess(user, component);
         }
         return false;
     }
@@ -362,7 +362,21 @@ public abstract partial class SharedMechLockSystem : EntitySystem
         if (!TryComp<AccessComponent>(idCard.Owner, out var access) || access.Tags == null)
             return false;
 
-        return component.CardAccessTags.All(tag => access.Tags.Contains(tag));
+        return component.CardAccessTags.Any(access.Tags.Contains);
+    }
+
+    private bool HasAllCardAccess(EntityUid user, MechLockComponent component)
+    {
+        if (component.CardAccessTags == null || component.CardAccessTags.Count == 0)
+            return false;
+
+        if (!TryFindIdCard(user, out var idCard))
+            return false;
+
+        if (!TryComp<AccessComponent>(idCard.Owner, out var access) || access.Tags == null)
+            return false;
+
+        return component.CardAccessTags.All(access.Tags.Contains);
     }
 
     private bool IsAnyOwner(EntityUid user, MechLockComponent component)
