@@ -20,6 +20,18 @@
   - type: MovementSpeedModifier
     baseWalkSpeed: 3.5
     baseSprintSpeed: 4
+  - type: SpawnLootOnDeath
+    deleteOnDeath: true
+    table: !type:AllSelector
+      children:
+      - id: MaterialBones1
+        rolls: 1, 2
+      - !type:GroupSelector
+        children:
+        - id: LegionCore
+          weight: 1
+        - !type:NoneSelector
+          weight: 5
 
 - type: entity
   parent: BaseMobAsteroid
@@ -106,6 +118,13 @@
       NavSmash: !type:Bool
         true
   - type: Fauna
+  - type: SpawnLootOnDeath
+    specialTable: !type:AllSelector
+      children:
+      - id: TrophyLavalandMarrowWeaverPoisonFang
+    weaponWhitelist:
+      components:
+      - MegafaunaWeaponLooter
 
 - type: entity
   parent: MobMarrowWeaverLavaland
@@ -130,3 +149,10 @@
         reagents:
         - ReagentId: Cryoxadone
           Quantity: 80
+  - type: SpawnLootOnDeath
+    specialTable: !type:AllSelector
+      children:
+      - id: TrophyLavalandFrostbiteWeaverFrostGland
+    weaponWhitelist:
+      components:
+      - MegafaunaWeaponLooter
