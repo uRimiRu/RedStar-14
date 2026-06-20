@@ -15,6 +15,9 @@
   - type: HTN
     rootTask:
       task: SimpleHumanoidHostileCompound
+    blackboard:
+      NavSmash: !type:Bool
+        true
   - type: InputMover
   - type: MobMover
   - type: MovementSpeedModifier
@@ -38,6 +41,8 @@
     actionIds:
     - ActionBloodDrunkMinerDash
   - type: SpawnLootOnDeath
+    deleteOnDeath: true
+    dropBoth: true
     table: !type:AllSelector
       children:
       - id: LavalandCrateNecropolisFilled
@@ -77,6 +82,12 @@
     thresholds:
       0: Alive
       800: Dead
+  - type: HTN
+    rootTask:
+      task: SimpleHostileCompound
+    blackboard:
+      NavSmash: !type:Bool
+        true
   - type: NPCUseActionsOnTarget
     actionIds:
     - ActionMegaLegion
@@ -90,6 +101,7 @@
   id: MobMegaLegion
   components:
   - type: SpawnLootOnDeath
+    deleteOnDeath: true
     specialTable: !type:AllSelector
       children:
       - id: TrophyLavalandLegionSkull
@@ -189,6 +201,12 @@
     useKey: false
     soundGunshot: null
   - type: ColossusBoss
+  - type: HTN
+    rootTask:
+      task: SimpleRangedHostileCompound
+    blackboard:
+      NavSmash: !type:Bool
+        true
   - type: NPCUseActionsOnTarget
     delayModifier: 0.5
     actionIds:
@@ -197,6 +215,8 @@
     - ActionColossusSpiral
     - ActionColossusTripleFraction
   - type: SpawnLootOnDeath
+    deleteOnDeath: true
+    dropBoth: true
     table: !type:AllSelector
       children:
       - id: LavalandCrateNecropolisColossusFilled
@@ -226,6 +246,12 @@
     useKey: false
     soundGunshot: null
   - type: AshDrakeBoss
+  - type: HTN
+    rootTask:
+      task: SimpleRangedHostileCompound
+    blackboard:
+      NavSmash: !type:Bool
+        true
   - type: NPCUseActionsOnTarget
     delayModifier: 0.5
     actionIds:
@@ -233,6 +259,8 @@
     - ActionAshDrakeBreathingFire
     - ActionAshDrakeLava
   - type: SpawnLootOnDeath
+    deleteOnDeath: true
+    dropBoth: true
     table: !type:AllSelector
       children:
       - id: LavalandCrateNecropolisAshDrakeFilled
@@ -242,6 +270,73 @@
     weaponWhitelist:
       components:
       - MegafaunaWeaponLooter
+
+- type: entity
+  parent: [ LavalandMobBase, MobBloodstream ]
+  id: MobLowerAshDrake
+  name: ash drake
+  description: A lesser draconic form carrying a fraction of the Necropolis guardian's power.
+  suffix: Lower
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Physics
+    bodyType: KinematicController
+    canCollide: false
+  - type: Sprite
+    sprite: _Wega/Mobs/Lavaland/ashdrake.rsi
+    layers:
+    - map: [enum.DamageStateVisualLayers.Base]
+      state: dragon
+  - type: DamageStateVisuals
+    states:
+      Alive:
+        Base: dragon
+      Dead:
+        Base: dragon_dead
+  - type: MeleeWeapon
+    altDisarm: false
+    angle: 0
+    animation: WeaponArcBite
+    soundHit:
+      path: /Audio/Effects/bite.ogg
+    attackRate: 1
+    damage:
+      types:
+        Slash: 10
+  - type: RechargeBasicEntityAmmo
+    showExamineText: false
+    rechargeCooldown: 0.01
+    rechargeSound: null
+  - type: BasicEntityAmmoProvider
+    proto: BulletAshDrakeFire
+    capacity: 9999
+    count: 9999
+  - type: Gun
+    projectileSpeed: 10
+    fireRate: 1
+    useKey: false
+    selectedMode: SemiAuto
+    availableModes:
+    - SemiAuto
+    showExamineText: false
+    soundGunshot: null
+    soundEmpty: null
+  - type: Pullable
+  - type: MovementSpeedModifier
+    baseWalkSpeed: 2.25
+    baseSprintSpeed: 2.25
+  - type: MobThresholds
+    thresholds:
+      0: Alive
+      500: Dead
+  - type: Bloodstream
+    bloodMaxVolume: 500
+    bloodlossDamage:
+      types:
+        Bloodloss: 0
+  - type: Tag
+    tags:
+    - LavaWalking
 
 - type: entity
   parent: LavalandBossBubblegum
@@ -275,12 +370,19 @@
       ActionBubblegumIllusionDash: 0.67
       ActionBubblegumPentagramDash: 0.33
       ActionBubblegumChaoticIllusionDash: 0.75
+  - type: HTN
+    rootTask:
+      task: SimpleHostileCompound
+    blackboard:
+      NavSmash: !type:Bool
+        true
   - type: NPCUseActionsOnTarget
     actionIds:
     - ActionBubblegumRage
     - ActionBubblegumBloodDive
     - ActionBubblegumTripleDash
   - type: SpawnLootOnDeath
+    deleteOnDeath: true
     specialTable: !type:AllSelector
       children:
       - id: TrophyLavalandBubblegumDemonClaws

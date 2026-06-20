@@ -4,6 +4,7 @@
 
 using Content.Shared.Maps;
 using Content.Shared.DoAfter;
+using Content.Shared.Polymorph;
 using Robust.Shared.Audio;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Serialization;
@@ -26,6 +27,12 @@ public sealed partial class LavaStaffComponent : Component
 [RegisterComponent]
 public sealed partial class DragonBloodComponent : Component
 {
+    [DataField]
+    public ProtoId<PolymorphPrototype> Skeleton = "WizardForcedSkeleton";
+
+    [DataField]
+    public EntProtoId LowerDrakeAction = "BecomeToDrakeAction";
+
     [DataField]
     public TimeSpan UseTime = TimeSpan.FromSeconds(5);
 
