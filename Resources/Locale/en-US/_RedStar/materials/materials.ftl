@@ -1,0 +1,6 @@
+# SPDX-FileCopyrightText: 2026 RedStar Contributors
+#
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+materials-rscrystal = redspace crystal
+materials-raw-redspace-crystal = redspace ore
