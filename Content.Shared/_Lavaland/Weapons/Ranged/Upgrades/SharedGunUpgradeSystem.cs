@@ -56,6 +56,7 @@ public abstract partial class SharedGunUpgradeSystem : EntitySystem
     public override void Initialize()
     {
         SubscribeLocalEvent<UpgradeableWeaponComponent, EntInsertedIntoContainerMessage>(OnUpgradeInserted);
+        SubscribeLocalEvent<UpgradeableWeaponComponent, EntRemovedFromContainerMessage>(OnUpgradeRemoved); // RS14
         SubscribeLocalEvent<UpgradeableWeaponComponent, ItemSlotInsertAttemptEvent>(OnItemSlotInsertAttemptEvent);
         SubscribeLocalEvent<UpgradeableWeaponComponent, ExaminedEvent>(OnExamine);
 
@@ -69,6 +70,8 @@ public abstract partial class SharedGunUpgradeSystem : EntitySystem
         SubscribeLocalEvent<UpgradeableWeaponComponent, GetLightAttackRangeEvent>(RelayEvent);
         SubscribeLocalEvent<UpgradeableWeaponComponent, GetMeleeAttackRateEvent>(RelayEvent);
         SubscribeLocalEvent<UpgradeableWeaponComponent, ApplyMarkerBonusEvent>(RelayEvent); // RS14
+        SubscribeLocalEvent<UpgradeableWeaponComponent, MarkerAttackAttemptEvent>(RelayEvent); // RS14
+        SubscribeLocalEvent<UpgradeableWeaponComponent, AfterMarkerAttackedEvent>(RelayEvent); // RS14
 
         SubscribeLocalEvent<UpgradeableWeaponComponent, GetItemActionsEvent>(RelayGetActionEvent);
 
@@ -141,6 +144,14 @@ public abstract partial class SharedGunUpgradeSystem : EntitySystem
         if (TryComp(ent.Owner, out GunComponent? gun))
             _gun.RefreshModifiers((ent.Owner, gun));
     }
+
+    // RS14-start: Recalculate modifiers when an upgrade is removed as well.
+    private void OnUpgradeRemoved(Entity<UpgradeableWeaponComponent> ent, ref EntRemovedFromContainerMessage args)
+    {
+        if (TryComp(ent.Owner, out GunComponent? gun))
+            _gun.RefreshModifiers((ent.Owner, gun));
+    }
+    // RS14-end
 
     private void OnItemSlotInsertAttemptEvent(Entity<UpgradeableWeaponComponent> ent, ref ItemSlotInsertAttemptEvent args)
     {
