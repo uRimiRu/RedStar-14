@@ -3,9 +3,22 @@
 
 - type: entity
   parent: MobHuman
-  id: MobBloodDrunkMiner
+  id: BaseMobBloodDrunkMiner
+  abstract: true
   name: blood-drunk miner
   description: An explorer who has survived Lavaland for far too long.
+  components:
+  - type: Unrevivable
+    analyzable: false
+  - type: WeatherImmune
+  - type: MobThresholds
+    thresholds:
+      0: Alive
+      900: Dead
+
+- type: entity
+  parent: BaseMobBloodDrunkMiner
+  id: MobBloodDrunkMiner
   components:
   - type: RandomHumanoidAppearance
     randomizeName: false
@@ -23,16 +36,8 @@
   - type: MovementSpeedModifier
     baseWalkSpeed: 3.5
     baseSprintSpeed: 4.5
-  - type: MobThresholds
-    thresholds:
-      0: Alive
-      900: Dead
-  - type: MeleeWeapon
-    attackRate: 0.8
-    damage:
-      types:
-        Slash: 25
-        Structural: 50
+  # RS14: Keep the inherited humanoid unarmed attack; crusher damage must come from the held crusher.
+  - type: WieldingBlocker # RS14: Keep both the crusher and kinetic accelerator in hand.
   - type: Loadout
     prototypes:
     - BloodDrunkMinerGear
@@ -211,11 +216,14 @@
     capacity: 9999
     count: 9999
   - type: Gun
-    projectileSpeed: 4
+    projectileSpeed: 5 # RS14-value: 4 -> 5
     fireRate: 10
     useKey: false
     soundGunshot: null
   - type: ColossusBoss
+  - type: MovementSpeedModifier
+    baseWalkSpeed: 4
+    baseSprintSpeed: 4
   - type: HTN
     rootTask:
       task: SimpleHostileCompound

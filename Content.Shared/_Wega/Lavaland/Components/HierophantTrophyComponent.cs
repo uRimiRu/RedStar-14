@@ -18,3 +18,10 @@ public sealed partial class HierophantTrophyComponent : Component
     [ViewVariables]
     public TimeSpan NextActivation;
 }
+
+[RegisterComponent, Access(typeof(HierophantTrophySystem))]
+public sealed partial class HierophantTrophyProjectileComponent : Component
+{
+    [ViewVariables]
+    public EntityUid Upgrade;
+}

@@ -12,6 +12,9 @@ public sealed partial class CrusherLegionSkullUpgradeComponent : Component
 {
     [DataField]
     public float FireRateCoefficient = 1.3f;
+
+    [DataField]
+    public float MeleeAttackRateCoefficient = 1.15f;
 }
 
 [RegisterComponent, NetworkedComponent, Access(typeof(CrusherUpgradeEffectsSystem))]
@@ -55,7 +58,7 @@ public sealed partial class CrusherMagmaWingUpgradeComponent : Component
 public sealed partial class CrusherPoisonFangUpgradeComponent : Component
 {
     [DataField]
-    public float DamageModifier = 0.1f;
+    public float DamageModifier = 0.05f;
 
     [DataField]
     public float Duration = 2f;
@@ -66,23 +69,6 @@ public sealed partial class CrusherFrostGlandUpgradeComponent : Component
 {
     [DataField]
     public float DamageModifier = 0.9f;
-}
-
-[RegisterComponent, NetworkedComponent, Access(typeof(CrusherUpgradeEffectsSystem))]
-public sealed partial class CrusherEyeBloodDrunkMinerUpgradeComponent : Component
-{
-    [DataField]
-    public float ImmunityDuration = 1f;
-}
-
-[RegisterComponent, NetworkedComponent, Access(typeof(CrusherUpgradeEffectsSystem))]
-public sealed partial class CrusherAshDrakeSpikeUpgradeComponent : Component
-{
-    [DataField]
-    public float DamageRadius = 3f;
-
-    [DataField]
-    public float DamageMultiplier = 0.4f;
 }
 
 [RegisterComponent, NetworkedComponent, Access(typeof(CrusherUpgradeEffectsSystem))]
@@ -98,12 +84,6 @@ public sealed partial class CrusherDemonClawsUpgradeComponent : Component
 [RegisterComponent, NetworkedComponent, Access(typeof(CrusherUpgradeEffectsSystem))]
 public sealed partial class CrusherBlasterTubesUpgradeComponent : Component
 {
-    [ViewVariables]
-    public bool Active;
-
-    [DataField(required: true)]
-    public DamageSpecifier Damage;
-
     [DataField]
     public float ProjectileSpeedCoefficient = 1.25f;
 }
