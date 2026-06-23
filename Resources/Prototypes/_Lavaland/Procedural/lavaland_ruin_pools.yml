@@ -57,16 +57,32 @@
     LavalandNesting: 1
     LavalandSpiderNest: 1
     LavalandLaziness: 1
+    WegaPreservedTerrarium: 1
+    WegaGolemsShuttle: 1
+    WegaEnvy: 1
+    WegaBasaltRuin: 1
+    WegaCrashedSyndiepod: 1
+    WegaHermitBase: 1
+    WegaMinerTomb: 1
+    WegaWreckedOutpost: 1
+    WegaWinterReserve: 1
+    WegaBiosphere: 1
+    WegaButterflys: 1
+    WegaCloningConsole: 1
+    WegaGreed: 1
+    WegaRitual: 1
+    WegaTemple: 1
+    WegaNecropolis: 1
     # RS14-end
     RougeAI: 1
     BiodomeBeach: 2
     BiodomeSnow: 2
-    GolemShuttle: 1
+    # GolemShuttle: 1 # RS14: replaced by the expanded Wega variant.
     ToyShop: 1
     Chemistry: 1
     Graveyard: 1
     SeedVault: 1
-    Hermit: 2
+    # Hermit: 2 # RS14: replaced by the expanded Wega variant.
     WaffleCo: 1
     ArrivalsBack: 1
     ArrivalsFront: 1
@@ -84,6 +100,6 @@
     Desk: 2
     Generator: 3
     Mug: 1
-    Temple: 1
+    # Temple: 1 # RS14: replaced by the expanded Wega variant.
   dungeonRuins:
     CommonRuin5x5: 60
