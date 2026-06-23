@@ -16,7 +16,6 @@ using Content.Shared.Weapons.Ranged;
 using Content.Shared.Weapons.Ranged.Events;
 using Content.Shared.Weapons.Ranged.Systems;
 using Robust.Shared.Prototypes;
-using Robust.Shared.Timing;
 
 namespace Content.Shared._Wega.Lavaland.Upgrades;
 
@@ -26,8 +25,6 @@ public sealed class CrusherUpgradeEffectsSystem : EntitySystem
     [Dependency] private readonly MobStateSystem _mobState = default!;
     [Dependency] private readonly MobThresholdSystem _threshold = default!;
     [Dependency] private readonly TagSystem _tag = default!;
-    [Dependency] private readonly IGameTiming _timing = default!;
-
     private static readonly ProtoId<TagPrototype> Pickaxe = "Pickaxe";
 
     public override void Initialize()
@@ -43,26 +40,10 @@ public sealed class CrusherUpgradeEffectsSystem : EntitySystem
         SubscribeLocalEvent<CrusherWatcherWingUpgradeComponent, GunShotEvent>(OnWatcherShot);
         SubscribeLocalEvent<CrusherMagmaWingUpgradeComponent, AfterMarkerAttackedEvent>(OnMagmaMarker);
         SubscribeLocalEvent<CrusherMagmaWingUpgradeComponent, GunShotEvent>(OnMagmaShot);
-        SubscribeLocalEvent<CrusherPoisonFangUpgradeComponent, AfterMarkerAttackedEvent>(OnPoisonMarker);
-        SubscribeLocalEvent<CrusherFrostGlandUpgradeComponent, GunShotEvent>(OnFrostShot);
         SubscribeLocalEvent<CrusherDemonClawsUpgradeComponent, MeleeHitEvent>(OnDemonMelee);
         SubscribeLocalEvent<CrusherBlasterTubesUpgradeComponent, GunRefreshModifiersEvent>(OnColossusRefresh);
 
-        SubscribeLocalEvent<IncreasedDamageComponent, BeforeDamageChangedEvent>(OnIncreasedDamage);
-        SubscribeLocalEvent<DamageMarkerComponent, MeleeHitEvent>(OnWeakeningMelee);
         SubscribeLocalEvent<GunUpgradeAreaDamageComponent, GunShotEvent>(OnAreaDamageShot);
-    }
-
-    public override void Update(float frameTime)
-    {
-        base.Update(frameTime);
-
-        var query = EntityQueryEnumerator<IncreasedDamageComponent>();
-        while (query.MoveNext(out var uid, out var component))
-        {
-            if (_timing.CurTime >= component.EndTime)
-                RemCompDeferred<IncreasedDamageComponent>(uid);
-        }
     }
 
     private void OnLegionRefresh(Entity<CrusherLegionSkullUpgradeComponent> ent, ref GunRefreshModifiersEvent args)
@@ -141,26 +122,6 @@ public sealed class CrusherUpgradeEffectsSystem : EntitySystem
     private void OnMagmaShot(Entity<CrusherMagmaWingUpgradeComponent> ent, ref GunShotEvent args)
         => ApplyNextShotDamage(ent.Comp.Damage, args.Ammo, ref ent.Comp.Active);
 
-    private void OnPoisonMarker(Entity<CrusherPoisonFangUpgradeComponent> ent, ref AfterMarkerAttackedEvent args)
-    {
-        var component = EnsureComp<IncreasedDamageComponent>(args.Target);
-        component.DamageModifier = ent.Comp.DamageModifier;
-        component.EndTime = _timing.CurTime + TimeSpan.FromSeconds(ent.Comp.Duration);
-    }
-
-    private void OnFrostShot(Entity<CrusherFrostGlandUpgradeComponent> ent, ref GunShotEvent args)
-    {
-        foreach (var (ammo, _) in args.Ammo)
-        {
-            if (ammo is not { } projectile || !TryComp<DamageMarkerOnCollideComponent>(projectile, out var marker))
-                continue;
-
-            marker.Weakening = true;
-            marker.WeakeningModifier = ent.Comp.DamageModifier;
-            Dirty(projectile, marker);
-        }
-    }
-
     private void OnDemonMelee(Entity<CrusherDemonClawsUpgradeComponent> ent, ref MeleeHitEvent args)
     {
         if (!args.HitEntities.Any(target => HasComp<MobStateComponent>(target) && !_mobState.IsDead(target)))
@@ -192,18 +153,6 @@ public sealed class CrusherUpgradeEffectsSystem : EntitySystem
             active = false;
             break;
         }
-    }
-
-    private void OnIncreasedDamage(Entity<IncreasedDamageComponent> ent, ref BeforeDamageChangedEvent args)
-    {
-        if (args.Damage.GetTotal() > 0)
-            args.Damage *= 1f + ent.Comp.DamageModifier;
-    }
-
-    private void OnWeakeningMelee(Entity<DamageMarkerComponent> ent, ref MeleeHitEvent args)
-    {
-        if (ent.Comp.Weakening)
-            args.BonusDamage -= args.BaseDamage * (1f - ent.Comp.WeakeningModifier);
     }
 
     private void OnAreaDamageShot(Entity<GunUpgradeAreaDamageComponent> ent, ref GunShotEvent args)

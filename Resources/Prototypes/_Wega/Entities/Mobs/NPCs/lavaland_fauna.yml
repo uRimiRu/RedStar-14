@@ -125,7 +125,7 @@
   - type: SpawnLootOnDeath
     specialTable: !type:AllSelector
       children:
-      - id: TrophyLavalandMarrowWeaverPoisonFang
+      - id: MaterialMarrowWeaverPoisonFang1
     weaponWhitelist:
       components:
       - MegafaunaWeaponLooter
@@ -156,7 +156,7 @@
   - type: SpawnLootOnDeath
     specialTable: !type:AllSelector
       children:
-      - id: TrophyLavalandFrostbiteWeaverFrostGland
+      - id: MaterialFrostbiteWeaverFrostGland1
     weaponWhitelist:
       components:
       - MegafaunaWeaponLooter

@@ -30,7 +30,14 @@ public sealed class HierophantTrophySystem : EntitySystem
         if (!_net.IsServer || args.HitEntities.Count == 0 || !TryActivate(ent.Comp))
             return;
 
-        SpawnWalls(ent.Comp, args.User);
+        var direction = args.Direction;
+        if (direction is null && args.HitEntities.Count > 0)
+        {
+            var delta = _transform.GetWorldPosition(args.HitEntities[0]) - _transform.GetWorldPosition(args.User);
+            direction = delta;
+        }
+
+        SpawnWalls(ent.Comp, Transform(args.User).Coordinates, direction ?? Vector2.UnitX);
     }
 
     private void OnGunShot(Entity<HierophantTrophyComponent> ent, ref GunShotEvent args)
@@ -55,7 +62,7 @@ public sealed class HierophantTrophySystem : EntitySystem
             return;
 
         var targetCoordinates = Transform(args.Target).Coordinates;
-        var direction = Transform(args.Target).LocalRotation.ToWorldVec();
+        var direction = Transform(ent).LocalRotation.ToWorldVec();
         if (args.Shooter is { } shooter && Exists(shooter))
         {
             var delta = _transform.GetWorldPosition(args.Target) - _transform.GetWorldPosition(shooter);

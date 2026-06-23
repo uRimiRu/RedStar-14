@@ -133,6 +133,10 @@
         whitelist:
           tags:
           - CrusherUpgradeBladeIceFrost
+      upgrade-poison: # RS14
+        whitelist:
+          tags:
+          - CrusherUpgradeBladePoison
       upgrade-sharpness:
         whitelist:
           tags:

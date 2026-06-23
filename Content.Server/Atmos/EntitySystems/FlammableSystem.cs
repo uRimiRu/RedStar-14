@@ -262,9 +262,8 @@ namespace Content.Server.Atmos.EntitySystems
             if (!TryComp(otherEnt, out FlammableComponent? flammable))
                 return;
 
-            // RS14-start: Respect the target's configured fire-stack limits.
-            AdjustFireStacks(otherEnt, ent.Comp.FireStacks, flammable, true);
-            // RS14-end
+            flammable.FireStacks += ent.Comp.FireStacks;
+            Ignite(otherEnt, ent, flammable);
             ent.Comp.Count--;
 
             if (ent.Comp.Count == 0)
@@ -290,9 +289,8 @@ namespace Content.Server.Atmos.EntitySystems
                 return;
             }
 
-            // RS14-start: Respect the target's configured fire-stack limits.
-            AdjustFireStacks(otherEnt, component.FireStacks, flammable, true);
-            // RS14-end
+            flammable.FireStacks += component.FireStacks;
+            Ignite(otherEnt, uid, flammable);
             component.Count--;
 
             if (component.Count == 0)
@@ -555,9 +553,8 @@ namespace Content.Server.Atmos.EntitySystems
                     return;
 
                 // Ignite that sucker
-                // RS14-start: Respect the target's configured fire-stack limits.
-                AdjustFireStacks(uid, component.FireStacks, flammable, true);
-                // RS14-end
+                flammable.FireStacks += component.FireStacks;
+                Ignite(uid, uid, flammable);
             }
 
 
