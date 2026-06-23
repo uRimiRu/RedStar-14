@@ -294,6 +294,7 @@
     - id: CrusherUpgradeBladeLavaAspect
     - id: CrusherUpgradeBladeIceFrost
     - id: CrusherUpgradeBladeSharpness
+    - id: CrusherUpgradeBladePoison # RS14
 
 - type: entityTable
   id: CrusherUpgradesHandle

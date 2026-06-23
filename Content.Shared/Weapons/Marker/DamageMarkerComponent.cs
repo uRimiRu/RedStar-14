@@ -53,14 +53,6 @@ public sealed partial class DamageMarkerComponent : Component
     [ViewVariables(VVAccess.ReadWrite), DataField("damage")]
     public DamageSpecifier Damage = new();
 
-    // RS14-start
-    [ViewVariables(VVAccess.ReadWrite), DataField]
-    public bool Weakening;
-
-    [ViewVariables(VVAccess.ReadWrite), DataField]
-    public float WeakeningModifier = 1f;
-    // RS14-end
-
     /// <summary>
     /// Entity that marked this entity for a damage surplus.
     /// </summary>

@@ -7,115 +7,68 @@ using Robust.Shared.GameStates;
 
 namespace Content.Shared._Wega.Lavaland.Upgrades;
 
-[RegisterComponent, NetworkedComponent, Access(typeof(CrusherUpgradeEffectsSystem))]
+[RegisterComponent, NetworkedComponent, AutoGenerateComponentState, Access(typeof(CrusherUpgradeEffectsSystem))]
 public sealed partial class CrusherLegionSkullUpgradeComponent : Component
 {
-    [DataField]
+    [DataField, AutoNetworkedField]
     public float FireRateCoefficient = 1.3f;
+
+    [DataField, AutoNetworkedField]
+    public float MeleeAttackRateCoefficient = 1.15f;
 }
 
-[RegisterComponent, NetworkedComponent, Access(typeof(CrusherUpgradeEffectsSystem))]
+[RegisterComponent, NetworkedComponent, AutoGenerateComponentState, Access(typeof(CrusherUpgradeEffectsSystem))]
 public sealed partial class CrusherGoliathTentacleUpgradeComponent : Component
 {
-    [DataField]
+    [DataField, AutoNetworkedField]
     public float MaxCoefficient = 1f;
 
-    [DataField]
+    [DataField, AutoNetworkedField]
     public MobState TargetState = MobState.Critical;
 }
 
-[RegisterComponent, NetworkedComponent, Access(typeof(CrusherUpgradeEffectsSystem))]
+[RegisterComponent, NetworkedComponent, AutoGenerateComponentState, Access(typeof(CrusherUpgradeEffectsSystem))]
 public sealed partial class CrusherAncientGoliathTentacleUpgradeComponent : Component
 {
-    [DataField]
+    [DataField, AutoNetworkedField]
     public float Coefficient = 0.5f;
 
-    [DataField]
+    [DataField, AutoNetworkedField]
     public float HealthThreshold = 0.9f;
 }
 
-[RegisterComponent, NetworkedComponent, Access(typeof(CrusherUpgradeEffectsSystem))]
+[RegisterComponent, NetworkedComponent, AutoGenerateComponentState, Access(typeof(CrusherUpgradeEffectsSystem))]
 public sealed partial class CrusherWatcherWingUpgradeComponent : Component
 {
-    [DataField]
+    [DataField, AutoNetworkedField]
     public float CooldownIncrease = 1f;
 }
 
-[RegisterComponent, NetworkedComponent, Access(typeof(CrusherUpgradeEffectsSystem))]
+[RegisterComponent, NetworkedComponent, AutoGenerateComponentState, Access(typeof(CrusherUpgradeEffectsSystem))]
 public sealed partial class CrusherMagmaWingUpgradeComponent : Component
 {
-    [ViewVariables]
+    [ViewVariables, AutoNetworkedField]
     public bool Active;
 
-    [DataField(required: true)]
+    [DataField(required: true), AutoNetworkedField]
     public DamageSpecifier Damage;
 }
 
-[RegisterComponent, NetworkedComponent, Access(typeof(CrusherUpgradeEffectsSystem))]
-public sealed partial class CrusherPoisonFangUpgradeComponent : Component
-{
-    [DataField]
-    public float DamageModifier = 0.1f;
-
-    [DataField]
-    public float Duration = 2f;
-}
-
-[RegisterComponent, NetworkedComponent, Access(typeof(CrusherUpgradeEffectsSystem))]
-public sealed partial class CrusherFrostGlandUpgradeComponent : Component
-{
-    [DataField]
-    public float DamageModifier = 0.9f;
-}
-
-[RegisterComponent, NetworkedComponent, Access(typeof(CrusherUpgradeEffectsSystem))]
-public sealed partial class CrusherEyeBloodDrunkMinerUpgradeComponent : Component
-{
-    [DataField]
-    public float ImmunityDuration = 1f;
-}
-
-[RegisterComponent, NetworkedComponent, Access(typeof(CrusherUpgradeEffectsSystem))]
-public sealed partial class CrusherAshDrakeSpikeUpgradeComponent : Component
-{
-    [DataField]
-    public float DamageRadius = 3f;
-
-    [DataField]
-    public float DamageMultiplier = 0.4f;
-}
-
-[RegisterComponent, NetworkedComponent, Access(typeof(CrusherUpgradeEffectsSystem))]
+[RegisterComponent, NetworkedComponent, AutoGenerateComponentState, Access(typeof(CrusherUpgradeEffectsSystem))]
 public sealed partial class CrusherDemonClawsUpgradeComponent : Component
 {
-    [DataField]
+    [DataField, AutoNetworkedField]
     public float DamageMultiplier = 0.15f;
 
-    [DataField]
+    [DataField, AutoNetworkedField]
     public DamageSpecifier MeleeHeal = new();
 }
 
-[RegisterComponent, NetworkedComponent, Access(typeof(CrusherUpgradeEffectsSystem))]
+[RegisterComponent, NetworkedComponent, AutoGenerateComponentState, Access(typeof(CrusherUpgradeEffectsSystem))]
 public sealed partial class CrusherBlasterTubesUpgradeComponent : Component
 {
-    [ViewVariables]
-    public bool Active;
-
-    [DataField(required: true)]
-    public DamageSpecifier Damage;
-
-    [DataField]
+    [DataField, AutoNetworkedField]
     public float ProjectileSpeedCoefficient = 1.25f;
-}
-
-[RegisterComponent, NetworkedComponent, Access(typeof(CrusherUpgradeEffectsSystem))]
-public sealed partial class IncreasedDamageComponent : Component
-{
-    [DataField]
-    public float DamageModifier = 0.1f;
-
-    [ViewVariables]
-    public TimeSpan EndTime;
 }
 
 [RegisterComponent]

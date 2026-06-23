@@ -120,10 +120,6 @@ public abstract class SharedDamageMarkerSystem : EntitySystem
         marker.EndTime = _timing.CurTime + component.Duration;
         marker.Effect = component.Effect; // Goob edit: Pass the effect to the marker
         marker.Sound = component.Sound; // Goob edit: Pass the effect to the marker
-        // RS14-start: transfer trophy-applied weakening to the marked target.
-        marker.Weakening = component.Weakening;
-        marker.WeakeningModifier = component.WeakeningModifier;
-        // RS14-end
         component.Amount--;
 
         Dirty(args.OtherEntity, marker);
