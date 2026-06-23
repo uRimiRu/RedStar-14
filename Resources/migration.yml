@@ -1195,3 +1195,5 @@ ClothingHeadHatHoodGoliathCloak: null
 
 # 2026-06-23 RS14 mech module migration
 MechEquipmentHorn: MechModuleHorn
+MechAirTank: MechModuleAirTank
+MechThruster: null
