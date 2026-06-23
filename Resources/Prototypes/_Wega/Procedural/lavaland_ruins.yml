@@ -47,101 +47,101 @@
 
 # RS14-start: remaining Wega Lavaland ruins.
 - type: lavalandGridRuin
-  id: WegaPreservedTerrarium
+  id: PreservedTerrarium
   name: lavaland-ruin-biodome
   path: /Maps/Lavaland/preserved_terrarium.yml
   priority: 17
   patchToPlanet: false
 
 - type: lavalandGridRuin
-  id: WegaGolemsShuttle
+  id: GolemsShuttle
   name: lavaland-ruin-big-shuttle
   path: /Maps/_Wega/Lavaland/golemsshuttle.yml
   priority: 18
   patchToPlanet: false
 
 - type: lavalandGridRuin
-  id: WegaEnvy
+  id: Envy
   name: lavaland-ruin-cult
   path: /Maps/_Wega/Lavaland/Envy.yml
   priority: 19
 
 - type: lavalandGridRuin
-  id: WegaBasaltRuin
+  id: BasaltRuin
   name: lavaland-ruin-rock
   path: /Maps/Lavaland/basalt_ruin.yml
   priority: 20
 
 - type: lavalandGridRuin
-  id: WegaCrashedSyndiepod
+  id: CrashedSyndiepod
   name: lavaland-ruin-crash
   path: /Maps/Lavaland/crashedsyndiepod.yml
   priority: 21
 
 - type: lavalandGridRuin
-  id: WegaHermitBase
+  id: HermitBase
   name: lavaland-ruin-shelter
   path: /Maps/_Wega/Lavaland/hermit_base.yml
   priority: 22
 
 - type: lavalandGridRuin
-  id: WegaMinerTomb
+  id: MinerTomb
   name: lavaland-ruin-rock
   path: /Maps/_Wega/Lavaland/miner_tomb.yml
   priority: 23
 
 - type: lavalandGridRuin
-  id: WegaWreckedOutpost
+  id: WreckedOutpost
   name: lavaland-ruin-station
   path: /Maps/Lavaland/wrecked_outpost.yml
   priority: 24
 
 - type: lavalandGridRuin
-  id: WegaWinterReserve
+  id: WinterReserve
   name: lavaland-ruin-ice
   path: /Maps/_Wega/Lavaland/winterreserve.yml
   priority: 25
   patchToPlanet: false
 
 - type: lavalandGridRuin
-  id: WegaBiosphere
+  id: Biosphere
   name: lavaland-ruin-biodome
   path: /Maps/_Wega/Lavaland/biosphere.yml
   priority: 26
   patchToPlanet: false
 
 - type: lavalandGridRuin
-  id: WegaButterflys
+  id: Butterflys
   name: lavaland-ruin-cult
   path: /Maps/_Wega/Lavaland/butterflys.yml
   priority: 27
 
 - type: lavalandGridRuin
-  id: WegaCloningConsole
+  id: CloningConsole
   name: lavaland-ruin-laboratory
   path: /Maps/_Wega/Lavaland/cloningconsole.yml
   priority: 28
 
 - type: lavalandGridRuin
-  id: WegaGreed
+  id: Greed
   name: lavaland-ruin-cult
   path: /Maps/_Wega/Lavaland/Greed.yml
   priority: 29
 
 - type: lavalandGridRuin
-  id: WegaRitual
+  id: Ritual
   name: lavaland-ruin-cult
   path: /Maps/_Wega/Lavaland/ritual.yml
   priority: 30
 
 - type: lavalandGridRuin
-  id: WegaTemple
+  id: Temple
   name: lavaland-ruin-temple
   path: /Maps/_Wega/Lavaland/temple.yml
   priority: 31
 
 - type: lavalandGridRuin
-  id: WegaNecropolis
+  id: Necropolis
   name: lavaland-ruin-cult
   path: /Maps/_Wega/Lavaland/necropolis.yml
   priority: 32

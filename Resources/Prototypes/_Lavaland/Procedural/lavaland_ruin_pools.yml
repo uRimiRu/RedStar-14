@@ -57,26 +57,26 @@
     LavalandNesting: 1
     LavalandSpiderNest: 1
     LavalandLaziness: 1
-    WegaPreservedTerrarium: 1
-    WegaGolemsShuttle: 1
-    WegaEnvy: 1
-    WegaBasaltRuin: 1
-    WegaCrashedSyndiepod: 1
-    WegaHermitBase: 1
-    WegaMinerTomb: 1
-    WegaWreckedOutpost: 1
-    WegaWinterReserve: 1
-    WegaBiosphere: 1
-    WegaButterflys: 1
-    WegaCloningConsole: 1
-    WegaGreed: 1
-    WegaRitual: 1
-    WegaTemple: 1
-    WegaNecropolis: 1
+    PreservedTerrarium: 1
+    GolemsShuttle: 1
+    Envy: 1
+    BasaltRuin: 1
+    CrashedSyndiepod: 1
+    HermitBase: 1
+    MinerTomb: 1
+    WreckedOutpost: 1
+    WinterReserve: 1
+    Biosphere: 1
+    Butterflys: 1
+    CloningConsole: 1
+    Greed: 1
+    Ritual: 1
+    Temple: 1
+    Necropolis: 1
     # RS14-end
     RougeAI: 1
-    BiodomeBeach: 2
-    BiodomeSnow: 2
+    #BiodomeBeach: 2
+    BiodomeSnow: 1
     # GolemShuttle: 1 # RS14: replaced by the expanded Wega variant.
     ToyShop: 1
     Chemistry: 1
