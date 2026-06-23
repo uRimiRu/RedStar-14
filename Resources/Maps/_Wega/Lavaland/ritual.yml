@@ -125,7 +125,8 @@ entities:
     - type: RadiationGridResistance
     - type: IFF
       flags: Hide
-    - type: ImplicitRoof- proto: BloodCultStructurePylon
+    - type: ImplicitRoof
+- proto: BloodCultStructurePylon
   entities:
   - uid: 1
     components:

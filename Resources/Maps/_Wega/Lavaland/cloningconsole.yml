@@ -131,7 +131,8 @@ entities:
       version: 2
       data:
         chunkSize: 4
-    - type: GasTileOverlay    - type: RadiationGridResistance
+    - type: GasTileOverlay
+    - type: RadiationGridResistance
 - proto: AirlockShuttle
   entities:
   - uid: 54

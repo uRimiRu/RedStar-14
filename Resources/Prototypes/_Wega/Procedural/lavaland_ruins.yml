@@ -45,7 +45,6 @@
   path: /Maps/_Wega/Lavaland/Laziness.yml
   priority: 16
 
-# RS14-start: remaining Wega Lavaland ruins.
 - type: lavalandGridRuin
   id: PreservedTerrarium
   name: lavaland-ruin-biodome
@@ -135,14 +134,7 @@
   priority: 30
 
 - type: lavalandGridRuin
-  id: Temple
-  name: lavaland-ruin-temple
-  path: /Maps/_Wega/Lavaland/temple.yml
-  priority: 31
-
-- type: lavalandGridRuin
   id: Necropolis
   name: lavaland-ruin-cult
   path: /Maps/_Wega/Lavaland/necropolis.yml
-  priority: 32
-# RS14-end
+  priority: 31

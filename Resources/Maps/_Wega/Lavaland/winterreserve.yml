@@ -432,7 +432,8 @@ entities:
         chunkSize: 4
     - type: GasTileOverlay
     - type: RadiationGridResistance
-    - type: ImplicitRoof- proto: AirlockFreezer
+    - type: ImplicitRoof
+- proto: AirlockFreezer
   entities:
   - uid: 10580
     components:

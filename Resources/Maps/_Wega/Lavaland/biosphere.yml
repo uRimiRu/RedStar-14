@@ -432,7 +432,8 @@ entities:
         chunkSize: 4
     - type: GasTileOverlay
     - type: RadiationGridResistance
-    - type: ImplicitRoof- proto: ActionToggleInternals
+    - type: ImplicitRoof
+- proto: ActionToggleInternals
   entities:
   - uid: 114
     mapInit: true

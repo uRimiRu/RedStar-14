@@ -97,7 +97,8 @@ entities:
         chunkSize: 4
     - type: GasTileOverlay
     - type: RadiationGridResistance
-    - type: ImplicitRoof- proto: Carpet
+    - type: ImplicitRoof
+- proto: Carpet
   entities:
   - uid: 7315
     components:

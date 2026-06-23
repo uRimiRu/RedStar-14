@@ -193,7 +193,8 @@ entities:
         chunkSize: 4
     - type: GasTileOverlay
     - type: RadiationGridResistance
-    - type: ImplicitRoof- proto: AirlockBloodCult
+    - type: ImplicitRoof
+- proto: AirlockBloodCult
   entities:
   - uid: 1
     components:
