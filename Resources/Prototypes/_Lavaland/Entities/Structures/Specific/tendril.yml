@@ -113,7 +113,6 @@
   - type: SpawnTableOnTrigger
     table:
       id: MobLegion
-      id: MobLegionDwarf # RS14
   - type: TriggerCounterLimit
     maxCount: 3
   - type: TriggerOnProximity
