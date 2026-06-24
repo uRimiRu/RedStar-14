@@ -113,7 +113,7 @@
       color: "#a71010"
     - state: overlay-3
       color: "#eb4c13"
-  - type: GunUpgrade
+  - type: ItemUpgrade
     name: gun-upgrade-aoe-name
     uniqueGroup: aoe
   - type: GunUpgradeAreaDamage

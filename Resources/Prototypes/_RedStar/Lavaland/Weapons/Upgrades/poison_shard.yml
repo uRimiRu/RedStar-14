@@ -7,7 +7,7 @@
   - type: Sprite
     sprite: _RedStar/Objects/Weapons/Upgrades/crusher.rsi
     state: poison-shard
-  - type: GunUpgrade
+  - type: ItemUpgrade
     name: gun-upgrade-crusher-poison
   - type: WeaponUpgradeDamage
     bonusDamage:
