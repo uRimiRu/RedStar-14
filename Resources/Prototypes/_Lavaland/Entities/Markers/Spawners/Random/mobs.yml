@@ -7,6 +7,7 @@
   id: LavalandHeavyMobs
   table: !type:GroupSelector
     children:
+    - id: MobLegion
     - !type:GroupSelector
       children:
       - id: MobLavalandGoliath
@@ -40,29 +41,29 @@
 - type: entity
   name: lavaland heavy mob spawner
   id: SpawnerRandomMobLavaland
-  parent: MarkerBase
-  suffix: Lavaland
+  parent: ProximitySpawnerBase
+  suffix: Lavaland, Proximity
   components:
   - type: Sprite
     layers:
     - state: red
     - sprite: Mobs/Aliens/Asteroid/goliath.rsi
       state: goliath
-  - type: EntityTableSpawner
+  - type: SpawnTableOnTrigger
     table: !type:NestedSelector
       tableId: LavalandHeavyMobs
 
 - type: entity
   name: lavaland light mob spawner
   id: SpawnerRandomLightMobLavaland
-  parent: MarkerBase
-  suffix: Lavaland
+  parent: ProximitySpawnerBase
+  suffix: Lavaland, Proximity
   components:
   - type: Sprite
     layers:
     - state: red
     - sprite: Mobs/Aliens/Asteroid/goliath.rsi
       state: goliath
-  - type: EntityTableSpawner
+  - type: SpawnTableOnTrigger
     table: !type:NestedSelector
       tableId: LavalandLightMobs
