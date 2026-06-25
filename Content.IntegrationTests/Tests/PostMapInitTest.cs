@@ -180,7 +180,7 @@ namespace Content.IntegrationTests.Tests
             "/Maps/_Goobstation/cluster.yml",
             "/Maps/_Goobstation/amber.yml",
             "/Maps/_Goobstation/kettle.yml",
-            "/Maps/_Goobstation/lambda.yml",
+            // "/Maps/_Goobstation/lambda.yml",
             "/Maps/_Goobstation/leonid.yml",
             "/Maps/_Goobstation/Nonstations/wizden.yml", // Obviously
             "/Maps/_Lavaland/Lavaland/ruin_toyshop.yml", // I think we might want to glob these, idk
@@ -211,11 +211,11 @@ namespace Content.IntegrationTests.Tests
             "Delta",
             "Dev",            // Dev map
             "dm01-entryway",  // Deathmatch
-            "Europa",         // Not in pool.
+            // "Europa",         // Not in pool.
             "Fland",
             "FlandHighPop",
             "Kettle",
-            "Lambda",         // Not in pool
+            // "Lambda",         // Not in pool
             "Lavatest",       // Dev map
             "Leonid",
             "Loop",

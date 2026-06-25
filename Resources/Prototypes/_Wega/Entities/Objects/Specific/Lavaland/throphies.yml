@@ -152,8 +152,6 @@
   - type: Stack
     stackType: GoliathTentacle
     count: 1
-  - type: StackPrice
-    price: 500
 
 - type: entity
   parent: BaseCrusherUpgradeHandle
@@ -171,8 +169,6 @@
   - type: Stack
     stackType: AncientGoliathTentacle
     count: 1
-  - type: StackPrice
-    price: 750
 
 - type: entity
   parent: BaseItem
@@ -188,8 +184,6 @@
   - type: Stack
     stackType: MarrowWeaverPoisonFang
     count: 10
-  - type: StackPrice
-    price: 300
 
 - type: entity
   parent: MaterialMarrowWeaverPoisonFang
@@ -213,8 +207,6 @@
   - type: Stack
     stackType: FrostbiteWeaverFrostGland
     count: 10
-  - type: StackPrice
-    price: 300
 
 - type: entity
   parent: MaterialFrostbiteWeaverFrostGland
