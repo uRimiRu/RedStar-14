@@ -186,9 +186,6 @@ entities:
     - type: Transform
       pos: -9.5,1.5
       parent: 1
-    - type: DeviceList
-      devices:
-      - 99
     - type: Fixtures
       fixtures: {}
 - proto: APCHyperCapacity
@@ -697,11 +694,6 @@ entities:
     - type: Transform
       pos: -5.5,-1.5
       parent: 1
-    - type: DeviceNetwork
-      configurators:
-      - invalid
-      deviceLists:
-      - 10
 - proto: GeneratorBasic15kW
   entities:
   - uid: 100
