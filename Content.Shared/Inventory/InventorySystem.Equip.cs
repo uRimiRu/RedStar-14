@@ -345,11 +345,46 @@ public abstract partial class InventorySystem
         if (slotDefinition.DependsOn != null)
         {
             if (!TryGetSlotEntity(target, slotDefinition.DependsOn, out EntityUid? slotEntity, inventory))
-                return false;
-
-            if (slotDefinition.DependsOnComponents is { } componentRegistry)
             {
-                foreach (var (_, entry) in componentRegistry)
+                if (slotDefinition.DependsOnComponents is { } componentRegistry)
+                {
+                    EntityUid? found = null;
+                    foreach (var s in inventory.Slots)
+                    {
+                        if (!TryGetSlotEntity(target, s.Name, out var candidate, inventory))
+                            continue;
+
+                        var ok = true;
+                        foreach (var (_, entry) in componentRegistry)
+                        {
+                            if (!HasComp(candidate, entry.Component.GetType()))
+                            {
+                                ok = false;
+                                break;
+                            }
+                        }
+
+                        if (ok)
+                        {
+                            found = candidate;
+                            break;
+                        }
+                    }
+
+                    if (found == null)
+                        return false;
+
+                    slotEntity = found;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+
+            if (slotDefinition.DependsOnComponents is { } componentRegistryFinal)
+            {
+                foreach (var (_, entry) in componentRegistryFinal)
                 {
                     if (!HasComp(slotEntity, entry.Component.GetType()))
                         return false;
