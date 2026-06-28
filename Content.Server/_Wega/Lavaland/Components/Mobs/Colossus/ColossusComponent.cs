@@ -4,4 +4,14 @@
 namespace Content.Server._Wega.Lavaland.Mobs.Components;
 
 [RegisterComponent, Access(typeof(ColossusSystem))]
-public sealed partial class ColossusBossComponent : Component;
+public sealed partial class ColossusBossComponent : Component
+{
+    [DataField]
+    public float EnragedHealthThreshold = 0.5f;
+
+    [DataField]
+    public float EnragedSpeed = 5f;
+
+    [ViewVariables]
+    public bool Enraged;
+}

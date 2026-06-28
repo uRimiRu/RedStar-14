@@ -87,6 +87,12 @@
   - type: PartDisassembly
     assemblyPrototype: RipleyMKIIHarness
     assemblyId: RipleyMKII
+    partPrototypes:
+    - RipleyUpgradeKit
+    - RipleyLArm
+    - RipleyRArm
+    - RipleyLLeg
+    - RipleyRLeg
   - type: Construction
     graph: MechDisassemble
     node: start
@@ -119,6 +125,22 @@
     containers:
       mech-battery-slot:
       - PowerCellHigh
+
+# RS14-start
+- type: entity
+  id: MechRipley2Filled
+  parent: MechRipley2Battery
+  suffix: Battery, Filled
+  components:
+  - type: Mech
+    startingEquipment:
+      - MechEquipmentGrabber
+      - WeaponMechMeleeDrill
+    startingModules:
+      - MechModuleFan
+      - MechModuleAirTank
+      - MechModuleTeslaRelay
+# RS14-end
 
 # Clarke
 - type: entity
@@ -153,6 +175,11 @@
   - type: PartDisassembly
     assemblyPrototype: ClarkeHarness
     assemblyId: Clarke
+    partPrototypes:
+    - ClarkeHead
+    - ClarkeLArm
+    - ClarkeRArm
+    - ClarkeTreads
   - type: Construction
     graph: MechDisassemble
     node: start
@@ -185,6 +212,22 @@
     containers:
       mech-battery-slot:
       - PowerCellHigh
+
+# RS14-start
+- type: entity
+  id: MechClarkeFilled
+  parent: MechClarkeBattery
+  suffix: Battery, Filled
+  components:
+  - type: Mech
+    startingEquipment:
+      - WeaponMechMeleeDrillDiamond
+      - WeaponMechIndustrialKineticAccelerator
+    startingModules:
+      - MechModuleFan
+      - MechModuleAirTank
+      - MechModuleTeslaRelay
+# RS14-end
 
 - type: entity
   parent: MechHonkerBattery
@@ -238,6 +281,12 @@
   - type: PartDisassembly
     assemblyPrototype: GygaxHarness
     assemblyId: Gygax
+    partPrototypes:
+    - GygaxHead
+    - GygaxLArm
+    - GygaxRArm
+    - GygaxLLeg
+    - GygaxRLeg
   - type: Construction
     graph: MechDisassemble
     node: start
@@ -274,6 +323,23 @@
       mech-battery-slot:
       - PowerCellHigh
 
+# RS14-start
+- type: entity
+  id: MechGygaxFilled
+  parent: MechGygaxBattery
+  suffix: Battery, Filled
+  components:
+  - type: Mech
+    startingEquipment:
+      - WeaponMechChainSword
+      - WeaponMechCombatDisabler
+      - WeaponMechCombatShotgun
+    startingModules:
+      - MechModuleFan
+      - MechModuleAirTank
+      - MechModuleTeslaRelay
+# RS14-end
+
 # Durand
 - type: entity
   id: MechDurand
@@ -308,6 +374,12 @@
   - type: PartDisassembly
     assemblyPrototype: DurandHarness
     assemblyId: Durand
+    partPrototypes:
+    - DurandHead
+    - DurandLArm
+    - DurandRArm
+    - DurandLLeg
+    - DurandRLeg
   - type: Construction
     graph: MechDisassemble
     node: start
@@ -348,6 +420,23 @@
     containers:
       mech-battery-slot:
       - PowerCellHigh
+
+# RS14-start
+- type: entity
+  id: MechDurandFilled
+  parent: MechDurandBattery
+  suffix: Battery, Filled
+  components:
+  - type: Mech
+    startingEquipment:
+      - WeaponMechChainSword
+      - WeaponMechCombatShotgun
+      - WeaponMechCombatUltraRifle
+    startingModules:
+      - MechModuleFan
+      - MechModuleAirTank
+      - MechModuleTeslaRelay
+# RS14-end
 
 # Nanotrasen Combat Mechs
 

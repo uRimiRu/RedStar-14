@@ -8,9 +8,11 @@ stack-sinew =
         [few] сухожилия
        *[other] сухожилий
     }
-
 stack-chitin = хитин
-
+# RS14-start
+stack-goliath-tentacle = щупальце голиафа
+stack-ancient-goliath-tentacle = щупальце древнего голиафа
+# RS14-end
 lavaland-trophy-goliath-name = щупальце голиафа
 lavaland-trophy-ancient-goliath-name = щупальце древнего голиафа
 lavaland-trophy-marrow-weaver-name = ядовитый клык костномозгового ткача

@@ -122,16 +122,22 @@ public sealed partial class MechSystem : SharedMechSystem
         SubscribeLocalEvent<MechComponent, AttemptChangePanelEvent>(OnAttemptChangePanel); // RS14
 
 
-        // RS14-start
-        SubscribeLocalEvent<VehicleOperatorComponent, ToolUserAttemptUseEvent>(OnToolUseAttempt);
-        // RS14-end
-
         #region Equipment UI message relays
         SubscribeLocalEvent<MechComponent, MechGrabberEjectMessage>(ReceiveEquipmentUiMesssages);
         SubscribeLocalEvent<MechComponent, MechSoundboardPlayMessage>(ReceiveEquipmentUiMesssages);
         SubscribeLocalEvent<MechComponent, MechGeneratorEjectFuelMessage>(ReceiveEquipmentUiMesssages); // RS14
         #endregion
     }
+
+    // RS14-start
+    private void RefreshCanRun(EntityUid uid)
+    {
+        if (!HasComp<VehicleComponent>(uid))
+            return;
+
+        Vehicle.RefreshCanRun(uid);
+    }
+    // RS14-end
 
     private void OnMechCanMoveEvent(EntityUid uid, MechComponent component, ref VehicleCanRunEvent args) // RS14
     {
@@ -174,7 +180,7 @@ public sealed partial class MechSystem : SharedMechSystem
         if (component.BatterySlot.ContainedEntity == null && TryComp<BatteryComponent>(args.Used, out var battery))
         {
             InsertBattery(uid, args.Used, component, battery);
-            Vehicle.RefreshCanRun(uid); // RS14
+            RefreshCanRun(uid); // RS14
             return;
         }
 
@@ -206,7 +212,7 @@ public sealed partial class MechSystem : SharedMechSystem
 
         Dirty(uid, component);
         UpdateBatteryAlert(uid, component); // RS14
-        Vehicle.RefreshCanRun(uid); // RS14
+        RefreshCanRun(uid); // RS14
     }
 
     private void OnRemoveBattery(EntityUid uid, MechComponent component, RemoveBatteryEvent args)
@@ -218,7 +224,7 @@ public sealed partial class MechSystem : SharedMechSystem
             return;
 
         RemoveBattery(uid, component);
-        Vehicle.RefreshCanRun(uid); // RS14
+        RefreshCanRun(uid); // RS14
 
         args.Handled = true;
     }
@@ -248,7 +254,7 @@ public sealed partial class MechSystem : SharedMechSystem
             SetMechConstructionGraph(uid, component, MechDisassembleGraph, "disassembled");
         else
             RemComp<ConstructionComponent>(uid);
-        Vehicle.RefreshCanRun(uid);
+        RefreshCanRun(uid);
     }
     // RS14-end
 
@@ -274,7 +280,7 @@ public sealed partial class MechSystem : SharedMechSystem
         component.Integrity = component.MaxIntegrity;
         component.Energy = component.MaxEnergy;
 
-        Vehicle.RefreshCanRun(uid); // RS14
+        RefreshCanRun(uid); // RS14
         Dirty(uid, component);
     }
 
@@ -327,12 +333,6 @@ public sealed partial class MechSystem : SharedMechSystem
             return;
 
         args.Cancelled = true;
-    }
-
-    private void OnToolUseAttempt(EntityUid uid, VehicleOperatorComponent component, ref ToolUserAttemptUseEvent args) // RS14
-    {
-        if (component.Vehicle is { } vehicle && HasComp<MechComponent>(vehicle) && args.Target == vehicle) // RS14
-            args.Cancelled = true;
     }
 
     private void OnAlternativeVerb(EntityUid uid, MechComponent component, GetVerbsEvent<AlternativeVerb> args)
@@ -456,7 +456,8 @@ public sealed partial class MechSystem : SharedMechSystem
 
         args.Handled = true;
     }
-    //goobstation
+
+    // goobstation
     private void OnEmpPulse(EntityUid uid, MechComponent component, EmpPulseEvent args)
     {
         args.Affected = true;
@@ -467,7 +468,7 @@ public sealed partial class MechSystem : SharedMechSystem
         Dirty(uid, component);
         UpdateUserInterface(uid, component);
         UpdateBatteryAlert(uid, component); // RS14
-        Vehicle.RefreshCanRun(uid); // RS14
+        RefreshCanRun(uid); // RS14
     }
 
     private void OnDamageChanged(EntityUid uid, MechComponent component, DamageChangedEvent args)
@@ -633,7 +634,7 @@ public sealed partial class MechSystem : SharedMechSystem
         base.BreakMech(uid, component);
 
         _ui.CloseUi(uid, MechUiKey.Key);
-        Vehicle.RefreshCanRun(uid); // RS14
+        RefreshCanRun(uid); // RS14
     }
 
     public override bool TryChangeEnergy(EntityUid uid, FixedPoint2 delta, MechComponent? component = null)
@@ -658,7 +659,7 @@ public sealed partial class MechSystem : SharedMechSystem
             Dirty(uid, component);
         }
         UpdateBatteryAlert(uid, component); // RS14
-        Vehicle.RefreshCanRun(uid); // RS14
+        RefreshCanRun(uid); // RS14
         return true;
     }
 
@@ -674,7 +675,7 @@ public sealed partial class MechSystem : SharedMechSystem
         component.Energy = battery.CurrentCharge;
         component.MaxEnergy = battery.MaxCharge;
 
-        Vehicle.RefreshCanRun(uid); // RS14
+        RefreshCanRun(uid); // RS14
 
         Dirty(uid, component);
         UpdateUserInterface(uid, component);
@@ -690,11 +691,10 @@ public sealed partial class MechSystem : SharedMechSystem
         component.Energy = 0;
         component.MaxEnergy = 0;
 
-        Vehicle.RefreshCanRun(uid); // RS14
+        RefreshCanRun(uid); // RS14
 
         Dirty(uid, component);
         UpdateUserInterface(uid, component);
         UpdateBatteryAlert(uid, component); // RS14
     }
-
 }

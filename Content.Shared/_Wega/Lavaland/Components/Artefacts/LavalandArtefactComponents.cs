@@ -3,7 +3,9 @@
 // https://github.com/corvax-team/ss14-wega/blob/master/LICENSE.TXT
 
 using Content.Shared.Maps;
+using Content.Shared.Actions;
 using Content.Shared.DoAfter;
+using Content.Shared.Polymorph;
 using Robust.Shared.Audio;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Serialization;
@@ -26,6 +28,12 @@ public sealed partial class LavaStaffComponent : Component
 [RegisterComponent]
 public sealed partial class DragonBloodComponent : Component
 {
+    [DataField]
+    public ProtoId<PolymorphPrototype> Skeleton = "WizardForcedSkeleton";
+
+    [DataField]
+    public EntProtoId LowerDrakeAction = "BecomeToDrakeAction";
+
     [DataField]
     public TimeSpan UseTime = TimeSpan.FromSeconds(5);
 
@@ -103,6 +111,17 @@ public sealed partial class LinkedCubeComponent : Component
 
 [Serializable, NetSerializable]
 public sealed partial class DragonBloodDoAfterEvent : SimpleDoAfterEvent;
+
+public sealed partial class BecomeToDrakeActionEvent : InstantActionEvent
+{
+    [DataField]
+    public ProtoId<PolymorphPrototype> LowerDrake = "LowerAshDrakePolymorph";
+
+    [DataField]
+    public EntProtoId ReturnBack = "DrakeReturnBackAction";
+}
+
+public sealed partial class DrakeReturnBackActionEvent : InstantActionEvent;
 
 [Serializable, NetSerializable]
 public sealed partial class RodOathDoAfterEvent : SimpleDoAfterEvent;

@@ -1177,6 +1177,7 @@ EvilPlushieWachtel: null
 EvilPlushieLeguia: null
 EvilPlushiePasha: null
 SpawnMobGoidaBot: null
+PlushieDurk: null
 
 # 2026-06-13 RS14 mech PartAssembly migration
 RipleyChassis: null
@@ -1192,3 +1193,8 @@ GygaxChassis: null
 ClothingShoesClothwrap: ClothingFootWrapsWhite
 ClothingNeckCloakGoliathCloak: null
 ClothingHeadHatHoodGoliathCloak: null
+
+# 2026-06-23 RS14 mech module migration
+MechEquipmentHorn: MechModuleHorn
+MechAirTank: MechModuleAirTank
+MechThruster: null

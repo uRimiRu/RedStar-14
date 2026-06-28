@@ -3,7 +3,7 @@
 # https://github.com/corvax-team/ss14-wega/blob/master/LICENSE.TXT
 
 - type: entity
-  id: BaseLavalandFlora
+  id: BaseWegaLavalandFlora
   abstract: true
   placement:
     mode: SnapgridCenter
@@ -23,7 +23,7 @@
 
 # Cactus
 - type: entity
-  parent: BaseLavalandFlora
+  parent: BaseWegaLavalandFlora
   id: LavalandFloraCactus1
   name: barrel cactus
   description: A prickly desert plant which sometimes produces juicy fruit.
@@ -119,7 +119,7 @@
 
 # Fire Blossom
 - type: entity
-  parent: BaseLavalandFlora
+  parent: BaseWegaLavalandFlora
   id: LavalandFloraFireBlossom1
   name: fire blossom
   description: A bright luminescent flower.
@@ -189,7 +189,7 @@
 
 # Polypore
 - type: entity
-  parent: BaseLavalandFlora
+  parent: BaseWegaLavalandFlora
   id: LavalandFloraPolyporeMushroom1
   name: wood tinder fungus
   description: A tough parasitic fungus that can be carefully cut off.
@@ -255,7 +255,7 @@
 
 # Inocybe
 - type: entity
-  parent: BaseLavalandFlora
+  parent: BaseWegaLavalandFlora
   id: LavalandFloraInocybeMushroom1
   name: pale fire mushroom
   description: A fragile toxic mushroom with a cracked cap.
@@ -321,7 +321,7 @@
 
 # Porcini
 - type: entity
-  parent: BaseLavalandFlora
+  parent: BaseWegaLavalandFlora
   id: LavalandFloraPorciniMushroom1
   name: smoky boletus
   description: An edible mushroom with a slight stimulating effect.
@@ -386,7 +386,7 @@
 
 # Embershroom
 - type: entity
-  parent: BaseLavalandFlora
+  parent: BaseWegaLavalandFlora
   id: LavalandFloraEmbershroom1
   name: embershroom
   description: A heavy mushroom with smoldering veins.

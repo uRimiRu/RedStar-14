@@ -9,6 +9,8 @@ using Content.Shared.Damage;
 using Content.Shared.Damage.Components;
 using Content.Shared._Wega.Lavaland.Events;
 using Content.Shared.Mobs;
+using Content.Shared.Movement.Components;
+using Content.Shared.Movement.Systems;
 using Content.Shared.Mobs.Systems;
 using Content.Shared.Weapons.Ranged.Components;
 using Content.Shared.Weapons.Ranged.Systems;
@@ -24,6 +26,7 @@ public sealed partial class ColossusSystem : EntitySystem
     [Dependency] private SharedGunSystem _gun = default!;
     [Dependency] private IRobustRandom _random = default!;
     [Dependency] private MobThresholdSystem _threshold = default!;
+    [Dependency] private MovementSpeedModifierSystem _movement = default!;
     [Dependency] private SharedTransformSystem _transform = default!;
 
     public override void Initialize()
@@ -34,6 +37,21 @@ public sealed partial class ColossusSystem : EntitySystem
         SubscribeLocalEvent<ColossusBossComponent, ColossusCrossActionEvent>(OnCrossAction);
         SubscribeLocalEvent<ColossusBossComponent, ColossusSpiralActionEvent>(OnSpiralAction);
         SubscribeLocalEvent<ColossusBossComponent, ColossusTripleFractionActionEvent>(OnTripleFractionAction);
+        SubscribeLocalEvent<ColossusBossComponent, DamageChangedEvent>(OnDamageChanged);
+    }
+
+    private void OnDamageChanged(Entity<ColossusBossComponent> ent, ref DamageChangedEvent args)
+    {
+        if (ent.Comp.Enraged
+            || !args.DamageIncreased
+            || !_threshold.TryGetThresholdForState(ent, MobState.Dead, out var threshold)
+            || !TryComp<DamageableComponent>(ent, out var damageable)
+            || damageable.TotalDamage < threshold * (1f - ent.Comp.EnragedHealthThreshold)
+            || !TryComp<MovementSpeedModifierComponent>(ent, out var movement))
+            return;
+
+        ent.Comp.Enraged = true;
+        _movement.ChangeBaseSpeed(ent, ent.Comp.EnragedSpeed, ent.Comp.EnragedSpeed, movement.Acceleration, movement);
     }
 
     private void OnFractionAction(Entity<ColossusBossComponent> ent, ref ColossusFractionActionEvent args)

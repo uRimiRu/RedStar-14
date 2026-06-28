@@ -3,33 +3,41 @@
 
 - type: entity
   parent: MobHuman
-  id: MobBloodDrunkMiner
+  id: BaseMobBloodDrunkMiner
+  abstract: true
   name: blood-drunk miner
   description: An explorer who has survived Lavaland for far too long.
+  components:
+  - type: Unrevivable
+    analyzable: false
+  - type: WeatherImmune
+  - type: MobThresholds
+    thresholds:
+      0: Alive
+      900: Dead
+
+- type: entity
+  parent: BaseMobBloodDrunkMiner
+  id: MobBloodDrunkMiner
   components:
   - type: RandomHumanoidAppearance
     randomizeName: false
   - type: NpcFactionMember
     factions:
-    - SimpleHostile
+    - Lavafauna
   - type: HTN
     rootTask:
       task: SimpleHumanoidHostileCompound
+    blackboard:
+      NavSmash: !type:Bool
+        true
   - type: InputMover
   - type: MobMover
   - type: MovementSpeedModifier
     baseWalkSpeed: 3.5
     baseSprintSpeed: 4.5
-  - type: MobThresholds
-    thresholds:
-      0: Alive
-      900: Dead
-  - type: MeleeWeapon
-    attackRate: 0.8
-    damage:
-      types:
-        Slash: 25
-        Structural: 50
+  # RS14: Keep the inherited humanoid unarmed attack; crusher damage must come from the held crusher.
+  - type: WieldingBlocker # RS14: Keep both the crusher and kinetic accelerator in hand.
   - type: Loadout
     prototypes:
     - BloodDrunkMinerGear
@@ -38,6 +46,8 @@
     actionIds:
     - ActionBloodDrunkMinerDash
   - type: SpawnLootOnDeath
+    deleteOnDeath: true
+    dropBoth: true
     table: !type:AllSelector
       children:
       - id: LavalandCrateNecropolisFilled
@@ -77,19 +87,38 @@
     thresholds:
       0: Alive
       800: Dead
+  - type: NpcFactionMember
+    factions:
+    - Lavafauna
+  - type: HTN
+    rootTask:
+      task: SimpleHostileCompound
+    blackboard:
+      NavSmash: !type:Bool
+        true
   - type: NPCUseActionsOnTarget
     actionIds:
     - ActionMegaLegion
   - type: LegionBoss
     summonCount: 3
+    lootPrototypes:
+      MaterialBones1: 1
+      LavalandCrateNecropolisFilled: 0.2
+      LegionCore: 0.1
     rewards:
-    - LavalandCrateNecropolisFilled
+    - CrowbarRed
 
 - type: entity
   parent: BaseMobMegaLegion
   id: MobMegaLegion
   components:
+  - type: LegionBoss
+    lootPrototypes:
+      MaterialBones: 1
+      LavalandCrateNecropolisFilled: 0.2
+      LegionCore: 0.1
   - type: SpawnLootOnDeath
+    deleteOnDeath: true
     specialTable: !type:AllSelector
       children:
       - id: TrophyLavalandLegionSkull
@@ -168,12 +197,15 @@
     nextSplit: null
   - type: LegionBoss
     rewards:
-    - LavalandCrateNecropolisFilled
+    - CrowbarRed
 
 - type: entity
   parent: LavalandBossColossus
   id: MobColossus
   components:
+  - type: NpcFactionMember
+    factions:
+    - Lavafauna
   - type: Sprite
     sprite: _Wega/Mobs/Lavaland/colossus.rsi
     layers:
@@ -184,11 +216,20 @@
     capacity: 9999
     count: 9999
   - type: Gun
-    projectileSpeed: 4
+    projectileSpeed: 5 # RS14-value: 4 -> 5
     fireRate: 10
     useKey: false
     soundGunshot: null
   - type: ColossusBoss
+  - type: MovementSpeedModifier
+    baseWalkSpeed: 4
+    baseSprintSpeed: 4
+  - type: HTN
+    rootTask:
+      task: SimpleHostileCompound
+    blackboard:
+      NavSmash: !type:Bool
+        true
   - type: NPCUseActionsOnTarget
     delayModifier: 0.5
     actionIds:
@@ -196,7 +237,14 @@
     - ActionColossusCross
     - ActionColossusSpiral
     - ActionColossusTripleFraction
+    actionChances:
+      ActionColossusFraction: 0.6
+      ActionColossusCross: 0.4
+      ActionColossusSpiral: 0.6
+      ActionColossusTripleFraction: 0.5
   - type: SpawnLootOnDeath
+    deleteOnDeath: true
+    dropBoth: true
     table: !type:AllSelector
       children:
       - id: LavalandCrateNecropolisColossusFilled
@@ -211,6 +259,9 @@
   parent: LavalandBossAshDrake
   id: MobAshDrake
   components:
+  - type: NpcFactionMember
+    factions:
+    - Lavafauna
   - type: Sprite
     sprite: _Wega/Mobs/Lavaland/ashdrake.rsi
     layers:
@@ -226,13 +277,25 @@
     useKey: false
     soundGunshot: null
   - type: AshDrakeBoss
+  - type: HTN
+    rootTask:
+      task: SimpleHostileCompound
+    blackboard:
+      NavSmash: !type:Bool
+        true
   - type: NPCUseActionsOnTarget
     delayModifier: 0.5
     actionIds:
     - ActionAshDrakeConeFire
     - ActionAshDrakeBreathingFire
     - ActionAshDrakeLava
+    actionChances:
+      ActionAshDrakeConeFire: 0.75
+      ActionAshDrakeBreathingFire: 0.6
+      ActionAshDrakeLava: 0.1
   - type: SpawnLootOnDeath
+    deleteOnDeath: true
+    dropBoth: true
     table: !type:AllSelector
       children:
       - id: LavalandCrateNecropolisAshDrakeFilled
@@ -244,9 +307,79 @@
       - MegafaunaWeaponLooter
 
 - type: entity
+  parent: [ LavalandMobBase, MobBloodstream ]
+  id: MobLowerAshDrake
+  name: ash drake
+  description: A lesser draconic form carrying a fraction of the Necropolis guardian's power.
+  suffix: Lower
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Physics
+    bodyType: KinematicController
+    canCollide: false
+  - type: Sprite
+    sprite: _Wega/Mobs/Lavaland/ashdrake.rsi
+    layers:
+    - map: [enum.DamageStateVisualLayers.Base]
+      state: dragon
+  - type: DamageStateVisuals
+    states:
+      Alive:
+        Base: dragon
+      Dead:
+        Base: dragon_dead
+  - type: MeleeWeapon
+    altDisarm: false
+    angle: 0
+    animation: WeaponArcBite
+    soundHit:
+      path: /Audio/Effects/bite.ogg
+    attackRate: 1
+    damage:
+      types:
+        Slash: 10
+  - type: RechargeBasicEntityAmmo
+    showExamineText: false
+    rechargeCooldown: 0.01
+    rechargeSound: null
+  - type: BasicEntityAmmoProvider
+    proto: BulletAshDrakeFire
+    capacity: 9999
+    count: 9999
+  - type: Gun
+    projectileSpeed: 10
+    fireRate: 1
+    useKey: false
+    selectedMode: SemiAuto
+    availableModes:
+    - SemiAuto
+    showExamineText: false
+    soundGunshot: null
+    soundEmpty: null
+  - type: Pullable
+  - type: MovementSpeedModifier
+    baseWalkSpeed: 2.25
+    baseSprintSpeed: 2.25
+  - type: MobThresholds
+    thresholds:
+      0: Alive
+      500: Dead
+  - type: Bloodstream
+    bloodMaxVolume: 500
+    bloodlossDamage:
+      types:
+        Bloodloss: 0
+  - type: Tag
+    tags:
+    - LavaWalking
+
+- type: entity
   parent: LavalandBossBubblegum
   id: MobBubblegum
   components:
+  - type: NpcFactionMember
+    factions:
+    - Lavafauna
   - type: Sprite
     sprite: _Wega/Mobs/Lavaland/bubblegum.rsi
     layers:
@@ -275,12 +408,23 @@
       ActionBubblegumIllusionDash: 0.67
       ActionBubblegumPentagramDash: 0.33
       ActionBubblegumChaoticIllusionDash: 0.75
+  - type: HTN
+    rootTask:
+      task: SimpleHostileCompound
+    blackboard:
+      NavSmash: !type:Bool
+        true
   - type: NPCUseActionsOnTarget
     actionIds:
     - ActionBubblegumRage
     - ActionBubblegumBloodDive
     - ActionBubblegumTripleDash
+    actionChances:
+      ActionBubblegumRage: 0.1
+      ActionBubblegumBloodDive: 0.5
+      ActionBubblegumTripleDash: 0.8
   - type: SpawnLootOnDeath
+    deleteOnDeath: true
     specialTable: !type:AllSelector
       children:
       - id: TrophyLavalandBubblegumDemonClaws

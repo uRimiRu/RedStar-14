@@ -36,7 +36,7 @@
   parent: BaseItem
   id: BottleDragonBlood
   name: bottle of dragon blood
-  description: Drinking it permanently protects the body from fire and extreme heat.
+  description: Its unstable power permanently changes whoever drinks it.
   components:
   - type: Sprite
     sprite: _Wega/Objects/Specific/Lavaland/vial.rsi
@@ -197,7 +197,7 @@
     sprite: _Wega/Objects/Specific/Lavaland/dusty_shard.rsi
     state: icon
   - type: GuardianCreator
-    guardianProto: MobHoloparasiteGuardian
+    guardianProto: MobAshGuardian
 
 - type: entity
   parent: BaseItem
